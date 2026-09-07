@@ -564,6 +564,7 @@
             padding: 5px;
             border: 1px solid var(--border-color);
             flex-wrap: wrap;
+            overflow-x: auto;
         }
         
         .tab-btn {
@@ -1522,6 +1523,82 @@
             margin-bottom: 5px;
         }
         
+        /* ==================== GREENS CREEN ==================== */
+        .greenscreen-section {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .greenscreen-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .greenscreen-card-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .greenscreen-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: #dcfce7;
+            color: #16a34a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .greenscreen-button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .greenscreen-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(22,163,74,0.3);
+        }
+        
+        .greenscreen-progress {
+            display: none;
+            margin-top: 20px;
+            background: var(--bg-input);
+            border-radius: 8px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .greenscreen-progress-bar {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+            height: 10px;
+            border-radius: 5px;
+            width: 0%;
+            transition: all 0.3s;
+        }
+        
+        .greenscreen-result {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            border-radius: 12px;
+        }
+        
         /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
             .container {
@@ -1643,8 +1720,8 @@
                     <div class="feature-text">AI Dubbing</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">📊</div>
-                    <div class="feature-text">Phân Tích</div>
+                    <div class="feature-icon">🟢</div>
+                    <div class="feature-text">Xoá Phông Xanh</div>
                 </div>
                 <div class="feature">
                     <div class="feature-icon">🕐</div>
@@ -1670,7 +1747,7 @@
                             <li>Giới hạn 10 video/ngày</li>
                             <li class="not-included">Tải MP3</li>
                             <li class="not-included">AI Dubbing</li>
-                            <li class="not-included">Phân tích dữ liệu</li>
+                            <li class="not-included">Xoá Phông Xanh</li>
                         </ul>
                         <button class="btn-subscribe" onclick="selectPlan('free')">Đang Dùng</button>
                     </div>
@@ -1685,8 +1762,7 @@
                             <li>Tải MP3, Ảnh ZIP</li>
                             <li>Tải playlist/profile</li>
                             <li>Hàng đợi tải</li>
-                            <li class="not-included">AI Dubbing 50 giọng</li>
-                            <li class="not-included">Phân tích dữ liệu</li>
+                            <li class="not-included">Xoá Phông Xanh</li>
                         </ul>
                         <button class="btn-subscribe" onclick="selectPlan('pro')">⚡ Nâng Cấp PRO</button>
                     </div>
@@ -1698,8 +1774,8 @@
                         <ul class="plan-features">
                             <li>Tất cả tính năng PRO</li>
                             <li>AI Dubbing 100+ giọng</li>
+                            <li>Xoá Phông Xanh</li>
                             <li>Phân tích dữ liệu</li>
-                            <li>Đặt tên file tự động</li>
                             <li>Hỗ trợ ưu tiên</li>
                             <li>Xuất CSV, JSON</li>
                         </ul>
@@ -1713,6 +1789,7 @@
                 <button class="tab-btn active" onclick="switchTab('single')">🔗 Link Đơn</button>
                 <button class="tab-btn" onclick="switchTab('batch')">📁 Nhiều Link</button>
                 <button class="tab-btn" onclick="switchTab('dubbing')">🎙️ Lồng Tiếng</button>
+                <button class="tab-btn" onclick="switchTab('greenscreen')">🟢 Xoá Phông Xanh</button>
                 <button class="tab-btn" onclick="switchTab('playlist')">📃 Playlist</button>
                 <button class="tab-btn" onclick="switchTab('queue')">📋 Hàng Đợi</button>
                 <button class="tab-btn" onclick="switchTab('analytics')">📊 Phân Tích</button>
@@ -1909,7 +1986,64 @@
                 </div>
             </div>
             
-            <!-- Tab 4: Playlist/Profile -->
+            <!-- Tab 4: Greenscreen (Xoá Phông Xanh) -->
+            <div class="tab-content" id="tab-greenscreen">
+                <div class="greenscreen-section">
+                    <div class="greenscreen-card">
+                        <div class="greenscreen-card-header">
+                            <div class="greenscreen-icon">🟢</div>
+                            <div>
+                                <div class="dubbing-card-title">Xoá Phông Xanh (Green Screen)</div>
+                                <div class="dubbing-card-subtitle">Loại bỏ nền xanh và thay bằng nền mới</div>
+                            </div>
+                        </div>
+                        
+                        <div class="dubbing-options">
+                            <div class="dubbing-option">
+                                <label class="dubbing-option-label">🔗 Link video cần xử lý:</label>
+                                <input type="url" class="dubbing-input" id="greenscreen-url" placeholder="Dán link video có phông xanh...">
+                            </div>
+                            
+                            <div class="dubbing-option">
+                                <label class="dubbing-option-label">🎨 Thay bằng nền:</label>
+                                <select class="dubbing-select" id="greenscreen-background">
+                                    <option value="transparent">Trong suốt (Transparent)</option>
+                                    <option value="color">Màu đồng nhất (Solid Color)</option>
+                                    <option value="image">Hình ảnh / Video nền</option>
+                                </select>
+                            </div>
+                            
+                            <button class="greenscreen-button" onclick="startGreenScreen()">
+                                🚀 Bắt Đầu Xoá Phông Xanh
+                            </button>
+                            
+                            <!-- Tiến trình -->
+                            <div class="greenscreen-progress" id="greenscreen-progress">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
+                                    <strong style="color: var(--text-primary);">Đang xử lý...</strong>
+                                    <span style="color: var(--text-muted);" id="greenscreen-progress-text">Bước 1/4: Tải video</span>
+                                </div>
+                                <div class="greenscreen-progress-bar" id="greenscreen-progress-bar"></div>
+                            </div>
+                            
+                            <!-- Kết quả -->
+                            <div class="greenscreen-result" id="greenscreen-result">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <strong style="color: var(--text-primary);">✅ Xoá phông xanh thành công!</strong>
+                                    <button onclick="this.parentElement.style.display='none'" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;">✖</button>
+                                </div>
+                                <video controls style="width: 100%; border-radius: 8px; margin-bottom: 10px;" id="greenscreen-video-preview"></video>
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-green); color: white;">⬇️ Tải Video</button>
+                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-cyan); color: white;">🔗 Copy Link</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Tab 5: Playlist/Profile -->
             <div class="tab-content" id="tab-playlist">
                 <div class="input-group">
                     <label>📃 Dán link Profile hoặc Playlist TikTok:</label>
@@ -1923,7 +2057,7 @@
                 <div id="playlist-results"></div>
             </div>
             
-            <!-- Tab 5: Queue (Hàng đợi) -->
+            <!-- Tab 6: Queue (Hàng đợi) -->
             <div class="tab-content" id="tab-queue">
                 <div class="queue-section">
                     <h3 style="color: var(--text-primary); margin-bottom: 15px;">📋 Hàng Đợi Tải Video</h3>
@@ -1934,7 +2068,7 @@
                 </div>
             </div>
             
-            <!-- Tab 6: Analytics (Phân tích) -->
+            <!-- Tab 7: Analytics (Phân tích) -->
             <div class="tab-content" id="tab-analytics">
                 <div class="analytics-section">
                     <h3 style="color: var(--text-primary); margin-bottom: 15px;">📊 Thống Kê Tải Video</h3>
@@ -1975,7 +2109,7 @@
                 </div>
             </div>
             
-            <!-- Tab 7: Lịch sử -->
+            <!-- Tab 8: Lịch sử -->
             <div class="tab-content" id="tab-history">
                 <div class="history-section">
                     <h3 style="color: var(--text-primary); margin-bottom: 15px;">🕐 Lịch Sử Tải Video</h3>
@@ -1986,7 +2120,7 @@
                 </div>
             </div>
             
-            <!-- Tab 8: Cài đặt -->
+            <!-- Tab 9: Cài đặt -->
             <div class="tab-content" id="tab-settings">
                 <div class="export-section">
                     <h3 style="color: var(--text-primary); margin-bottom: 15px;">📊 Xuất Dữ Liệu</h3>
@@ -2047,6 +2181,7 @@
                     <li>Tải video MP4 không logo, chất lượng HD</li>
                     <li>AI lên ý tưởng và kịch bản lồng tiếng</li>
                     <li>100+ giọng đọc AI đa ngôn ngữ</li>
+                    <li>Xoá phông xanh (Green Screen)</li>
                     <li>Tách audio MP3 từ video</li>
                     <li>Tải ảnh cover và toàn bộ ảnh dạng ZIP</li>
                     <li>Upload mọi loại file (tự động trích xuất link)</li>
@@ -2251,11 +2386,12 @@
                 'single': [0, 'tab-single'],
                 'batch': [1, 'tab-batch'],
                 'dubbing': [2, 'tab-dubbing'],
-                'playlist': [3, 'tab-playlist'],
-                'queue': [4, 'tab-queue'],
-                'analytics': [5, 'tab-analytics'],
-                'history': [6, 'tab-history'],
-                'settings': [7, 'tab-settings']
+                'greenscreen': [3, 'tab-greenscreen'],
+                'playlist': [4, 'tab-playlist'],
+                'queue': [5, 'tab-queue'],
+                'analytics': [6, 'tab-analytics'],
+                'history': [7, 'tab-history'],
+                'settings': [8, 'tab-settings']
             };
             
             if (tabs[tabName]) {
@@ -2406,33 +2542,7 @@
             { id: 'de_male_1', name: 'Til Schweiger', lang: 'de', gender: 'male', desc: 'Nam, Đức' },
             { id: 'de_male_2', name: 'Daniel Bruhl', lang: 'de', gender: 'male', desc: 'Nam, Đức' },
             
-            // Thêm 50 giọng nữa...
-            { id: 'vi_female_6', name: 'Hồng Nhung', lang: 'vi', gender: 'female', desc: 'Nữ, ca sĩ' },
-            { id: 'vi_female_7', name: 'Mỹ Linh', lang: 'vi', gender: 'female', desc: 'Nữ, diva' },
-            { id: 'vi_female_8', name: 'Thanh Lam', lang: 'vi', gender: 'female', desc: 'Nữ, jazz' },
-            { id: 'vi_male_6', name: 'Tùng Dương', lang: 'vi', gender: 'male', desc: 'Nam, nghệ sĩ' },
-            { id: 'vi_male_7', name: 'Hà Anh Tuấn', lang: 'vi', gender: 'male', desc: 'Nam, lãng mạn' },
-            { id: 'vi_male_8', name: 'Noo Phước Thịnh', lang: 'vi', gender: 'male', desc: 'Nam, trẻ trung' },
-            { id: 'en_female_5', name: 'Scarlett Johansson', lang: 'en', gender: 'female', desc: 'Nữ, Mỹ, quyến rũ' },
-            { id: 'en_female_6', name: 'Angelina Jolie', lang: 'en', gender: 'female', desc: 'Nữ, Mỹ, mạnh mẽ' },
-            { id: 'en_male_5', name: 'Robert Downey Jr.', lang: 'en', gender: 'male', desc: 'Nam, Mỹ, hài hước' },
-            { id: 'en_male_6', name: 'Benedict Cumberbatch', lang: 'en', gender: 'male', desc: 'Nam, Anh, trí thức' },
-            
-            // Thêm 30 giọng nữa...
-            { id: 'ja_female_4', name: 'Rie Takahashi', lang: 'ja', gender: 'female', desc: 'Nữ, Nhật, anime' },
-            { id: 'ja_female_5', name: 'Ayane Sakura', lang: 'ja', gender: 'female', desc: 'Nữ, Nhật, năng động' },
-            { id: 'ja_male_4', name: 'Nobuhiko Okamoto', lang: 'ja', gender: 'male', desc: 'Nam, Nhật, trẻ trung' },
-            { id: 'ja_male_5', name: 'Hiroshi Kamiya', lang: 'ja', gender: 'male', desc: 'Nam, Nhật, nổi tiếng' },
-            { id: 'ko_female_4', name: 'IU', lang: 'ko', gender: 'female', desc: 'Nữ, Hàn, ca sĩ' },
-            { id: 'ko_female_5', name: 'Suzy', lang: 'ko', gender: 'female', desc: 'Nữ, Hàn, dễ thương' },
-            { id: 'ko_male_4', name: 'Kim Soo-hyun', lang: 'ko', gender: 'male', desc: 'Nam, Hàn, điển trai' },
-            { id: 'ko_male_5', name: 'Lee Min-ho', lang: 'ko', gender: 'male', desc: 'Nam, Hàn, lãng mạn' },
-            { id: 'zh_female_4', name: 'Liu Yifei', lang: 'zh', gender: 'female', desc: 'Nữ, Trung, tiên nữ' },
-            { id: 'zh_female_5', name: 'Zhou Dongyu', lang: 'zh', gender: 'female', desc: 'Nữ, Trung, trẻ trung' },
-            { id: 'zh_male_4', name: 'Xiao Zhan', lang: 'zh', gender: 'male', desc: 'Nam, Trung, thần tượng' },
-            { id: 'zh_male_5', name: 'Wang Yibo', lang: 'zh', gender: 'male', desc: 'Nam, Trung, trẻ trung' },
-            
-            // 20 giọng đặc biệt
+            // Special voices
             { id: 'special_1', name: 'Robot AI 1', lang: 'all', gender: 'all', desc: 'Robot, công nghệ' },
             { id: 'special_2', name: 'Robot AI 2', lang: 'all', gender: 'all', desc: 'Robot, tương lai' },
             { id: 'special_3', name: 'Narrator', lang: 'all', gender: 'male', desc: 'Người dẫn chuyện' },
@@ -2442,17 +2552,7 @@
             { id: 'special_7', name: 'Excited', lang: 'all', gender: 'all', desc: 'Hào hứng, sôi nổi' },
             { id: 'special_8', name: 'Calm', lang: 'all', gender: 'all', desc: 'Bình tĩnh, chậm rãi' },
             { id: 'special_9', name: 'Dramatic', lang: 'all', gender: 'all', desc: 'Kịch tính, phim ảnh' },
-            { id: 'special_10', name: 'Comedy', lang: 'all', gender: 'all', desc: 'Hài hước, vui nhộn' },
-            { id: 'special_11', name: 'News Anchor', lang: 'all', gender: 'male', desc: 'Phát thanh viên' },
-            { id: 'special_12', name: 'Sports', lang: 'all', gender: 'male', desc: 'Bình luận thể thao' },
-            { id: 'special_13', name: 'Audiobook', lang: 'all', gender: 'female', desc: 'Đọc sách nói' },
-            { id: 'special_14', name: 'ASMR', lang: 'all', gender: 'female', desc: 'ASMR, thì thầm' },
-            { id: 'special_15', name: 'Singing', lang: 'all', gender: 'all', desc: 'Hát, âm nhạc' },
-            { id: 'special_16', name: 'Whisper', lang: 'all', gender: 'all', desc: 'Thì thầm, bí mật' },
-            { id: 'special_17', name: 'Shout', lang: 'all', gender: 'male', desc: 'Hét, mạnh mẽ' },
-            { id: 'special_18', name: 'Gentle', lang: 'all', gender: 'female', desc: 'Nhẹ nhàng, dịu dàng' },
-            { id: 'special_19', name: 'Boss', lang: 'all', gender: 'male', desc: 'Sếp, quyền lực' },
-            { id: 'special_20', name: 'Teacher', lang: 'all', gender: 'female', desc: 'Giáo viên, chuẩn mực' }
+            { id: 'special_10', name: 'Comedy', lang: 'all', gender: 'all', desc: 'Hài hước, vui nhộn' }
         ];
         
         let selectedVoiceId = null;
@@ -2507,7 +2607,6 @@
                 document.getElementById('selected-voice').textContent = voice.name + ' (' + voice.lang.toUpperCase() + ')';
             }
             
-            // Cập nhật UI
             document.querySelectorAll('.voice-item').forEach(item => item.classList.remove('selected'));
             const selectedItem = document.querySelector(`.voice-item[onclick="selectVoice('${voiceId}')"]`);
             if (selectedItem) {
@@ -2519,7 +2618,6 @@
             const voice = voices.find(v => v.id === voiceId);
             if (!voice) return;
             
-            // Giả lập nghe thử
             const listenBtns = document.querySelectorAll('.voice-item-listen');
             listenBtns.forEach(btn => btn.classList.remove('playing'));
             
@@ -2544,7 +2642,6 @@
                 return;
             }
             
-            // Giả lập AI tạo ý tưởng
             const output = document.getElementById('ai-idea-output');
             const content = document.getElementById('ai-idea-content');
             
@@ -2581,7 +2678,6 @@
                 return;
             }
             
-            // Hiển thị tiến trình
             const progress = document.getElementById('dubbing-progress');
             const progressBar = document.getElementById('dubbing-progress-bar');
             const progressText = document.getElementById('dubbing-progress-text');
@@ -2589,7 +2685,6 @@
             progress.style.display = 'block';
             progressBar.style.width = '0%';
             
-            // Mô phỏng các bước
             const steps = [
                 'Bước 1/5: Tải video...',
                 'Bước 2/5: Phân tích giọng nói...',
@@ -2604,16 +2699,53 @@
                 await new Promise(resolve => setTimeout(resolve, 1500));
             }
             
-            // Hiển thị kết quả
             const result = document.getElementById('dubbing-result');
             const videoPreview = document.getElementById('dubbing-video-preview');
             
-            // Giả lập video đã lồng tiếng
             videoPreview.src = url;
             result.style.display = 'block';
             progress.style.display = 'none';
             
             alert('✅ Lồng tiếng thành công!');
+        }
+        
+        // ==================== GREENS CREEN ====================
+        async function startGreenScreen() {
+            const url = document.getElementById('greenscreen-url').value.trim();
+            
+            if (!url) {
+                alert('Vui lòng nhập link video!');
+                return;
+            }
+            
+            const progress = document.getElementById('greenscreen-progress');
+            const progressBar = document.getElementById('greenscreen-progress-bar');
+            const progressText = document.getElementById('greenscreen-progress-text');
+            
+            progress.style.display = 'block';
+            progressBar.style.width = '0%';
+            
+            const steps = [
+                'Bước 1/4: Tải video...',
+                'Bước 2/4: Phân tích khung hình...',
+                'Bước 3/4: Xoá phông xanh...',
+                'Bước 4/4: Tạo video mới...'
+            ];
+            
+            for (let i = 0; i < steps.length; i++) {
+                progressText.textContent = steps[i];
+                progressBar.style.width = `${((i + 1) / steps.length) * 100}%`;
+                await new Promise(resolve => setTimeout(resolve, 1500));
+            }
+            
+            const result = document.getElementById('greenscreen-result');
+            const videoPreview = document.getElementById('greenscreen-video-preview');
+            
+            videoPreview.src = url;
+            result.style.display = 'block';
+            progress.style.display = 'none';
+            
+            alert('✅ Xoá phông xanh thành công!');
         }
         
         // ==================== TẢI VIDEO ĐƠN ====================
