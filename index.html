@@ -313,53 +313,32 @@
             'SM-A226B', 'SM-M426B', 'SM-A525F', 'SM-N976N'
         ];
         
-        // Hàm resolve link rút gọn
-        async function resolveShortUrl(url) {
-            try {
-                // Dùng fetch với redirect: 'follow' để lấy URL cuối cùng
-                const response = await fetch(url, {
-                    method: 'HEAD',
-                    redirect: 'follow',
-                    mode: 'cors'
-                });
-                return response.url || url;
-            } catch (error) {
-                // Nếu HEAD fail, thử GET
-                try {
-                    const response = await fetch(url, {
-                        method: 'GET',
-                        redirect: 'follow',
-                        mode: 'cors'
-                    });
-                    return response.url || url;
-                } catch (e) {
-                    return url;
-                }
-            }
-        }
-        
-        // Hàm trích xuất ID video từ URL
-        async function extractVideoId(link) {
-            // Nếu là link rút gọn, resolve trước
-            if (link.includes('vt.tiktok.com') || link.includes('vm.tiktok.com')) {
-                const resolved = await resolveShortUrl(link);
-                const match = resolved.match(/(\d{18,19})/);
-                if (match) return match[0];
-                // Fallback: dùng regex trên link gốc
-                const match2 = link.match(/(\d{18,19})/);
-                if (match2) return match2[0];
-                throw new Error('Không thể resolve link rút gọn');
-            }
-            
-            // Link thường
-            const match = link.match(/(\d{18,19})/);
+        // Hàm trích xuất ID video - KHÔNG cần resolve, parse trực tiếp
+        function extractVideoId(link) {
+            // 1. Thử tìm số 18-19 chữ số trực tiếp
+            let match = link.match(/(\d{18,19})/);
             if (match) return match[0];
             
-            // Fallback: regex cho mọi link
-            const match2 = link.match(/(\d{15,20})/);
-            if (match2) return match2[0];
+            // 2. Thử tìm số 15-20 chữ số (mở rộng hơn)
+            match = link.match(/(\d{15,20})/);
+            if (match) return match[0];
             
-            throw new Error('Không tìm thấy ID video');
+            // 3. Nếu là link rút gọn vt.tiktok.com, lấy phần sau dấu /
+            // vd: https://vt.tiktok.com/ZSqjkTMHk/ -> không có ID số
+            // Nhưng chúng ta sẽ cố gắng lấy từ URL đầy đủ
+            if (link.includes('tiktok.com')) {
+                // Thử tìm ID từ đường dẫn /video/ hoặc /@user/video/
+                match = link.match(/\/video\/(\d+)/);
+                if (match) return match[0];
+                
+                // Thử tìm ID từ /@user/video/
+                match = link.match(/@[^/]+\/video\/(\d+)/);
+                if (match) return match[0];
+            }
+            
+            // 4. Fallback cuối cùng: nếu link rút gọn, yêu cầu mở link gốc
+            // Trong môi trường browser, không thể resolve CORS, nên báo lỗi rõ ràng
+            throw new Error('Không tìm thấy ID video. Vui lòng mở link gốc (bỏ vt.tiktok.com) và dán lại.');
         }
         
         function generateDeviceId() {
@@ -385,18 +364,7 @@
             const domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
             const url = `https://${domain}/aweme/v1/aweme/stats/?${params}`;
             
-            const useProxy = document.getElementById('useProxy').checked;
-            const proxyType = document.getElementById('proxyType').value;
-            const proxyCredential = document.getElementById('proxyCredential').value;
-            
-            let proxyUrl = '';
-            if (useProxy) {
-                const format = proxyCredential ? `${proxyCredential}@` : '';
-                proxyUrl = `${proxyType}://${format}`;
-            }
-            
             try {
-                // Sử dụng fetch với mode no-cors để tránh CORS error
                 const response = await fetch(url, {
                     method: 'POST',
                     headers: {
@@ -451,7 +419,7 @@
             
             let videoId;
             try {
-                videoId = await extractVideoId(link);
+                videoId = extractVideoId(link);
                 addLog(`✅ Đã tìm thấy video ID: ${videoId}`, 'success');
             } catch (error) {
                 addLog(`❌ ${error.message}`, 'error');
@@ -496,6 +464,7 @@
         // Show banner on load
         addLog('🔥 HUY PHAM TOOL - Sẵn sàng hoạt động', 'info');
         addLog('📌 Nhập link video và bấm BẮT ĐẦU', 'info');
+        addLog('💡 Mẹo: Nếu link rút gọn lỗi, hãy mở video trên TikTok, copy link gốc (có số ở cuối) rồi dán vào đây.', 'info');
     </script>
 </body>
 </html>
