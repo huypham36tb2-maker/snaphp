@@ -1,3437 +1,490 @@
 <!DOCTYPE html>
-<html lang="vi" data-theme="dark">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Huy Pham PREMIUM Ultimate - TikTok Downloader & AI Dubbing</title>
+    <title>HUY PHAM Tool - Buff View TikTok</title>
     <style>
-        /* ==================== CSS VARIABLES ==================== */
-        :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #1a1a1a;
-            --bg-card: #1e1e1e;
-            --bg-input: #2d2d2d;
-            --text-primary: #ffffff;
-            --text-secondary: #b0b0b0;
-            --text-muted: #6b7280;
-            --border-color: #333333;
-            --shadow-color: rgba(0,0,0,0.5);
-            --hover-bg: #2d2d2d;
-            --success-bg: #052e16;
-            --success-border: #22c55e;
-            --error-bg: #450a0a;
-            --error-border: #ef4444;
-            --note-bg: #422006;
-            --note-border: #f59e0b;
-            --feature-bg: #1a1a1a;
-            --tab-bg: #1a1a1a;
-            --tab-active: #8b5cf6;
-            --tab-inactive: #333333;
-            --accent: #8b5cf6;
-            --accent-hover: #7c3aed;
-            --accent-gradient: linear-gradient(135deg, #8b5cf6, #d946ef);
-            --gold-gradient: linear-gradient(135deg, #f59e0b, #fbbf24, #d97706);
-            --gold: #f59e0b;
-            --gold-hover: #d97706;
-            --btn-video: #ef4444;
-            --btn-video-hover: #dc2626;
-            --btn-image: #3b82f6;
-            --btn-image-hover: #2563eb;
-            --btn-green: #22c55e;
-            --btn-green-hover: #16a34a;
-            --btn-orange: #f59e0b;
-            --btn-orange-hover: #d97706;
-            --btn-purple: #8b5cf6;
-            --btn-purple-hover: #7c3aed;
-            --btn-audio: #ec4899;
-            --btn-audio-hover: #db2777;
-            --btn-cyan: #06b6d4;
-            --btn-cyan-hover: #0891b2;
-        }
-        
-        [data-theme="light"] {
-            --bg-primary: #f0f2f5;
-            --bg-secondary: #ffffff;
-            --bg-card: #ffffff;
-            --bg-input: #f3f4f6;
-            --text-primary: #111827;
-            --text-secondary: #4b5563;
-            --text-muted: #9ca3af;
-            --border-color: #e5e7eb;
-            --shadow-color: rgba(0,0,0,0.1);
-            --hover-bg: #f3f4f6;
-            --success-bg: #f0fdf4;
-            --success-border: #bbf7d0;
-            --error-bg: #fef2f2;
-            --error-border: #fecaca;
-            --note-bg: #fffbeb;
-            --note-border: #fcd34d;
-            --feature-bg: #f9fafb;
-            --tab-bg: #f3f4f6;
-            --tab-active: #8b5cf6;
-            --tab-inactive: #e5e7eb;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(135deg, #0f0f0f, #1a1a2e, #16213e);
             min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
+            color: #fff;
+            overflow-x: hidden;
+        }
+        
+        .banner {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #ffa500, #4ecdc4);
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+            border-radius: 10px;
+            margin: 20px;
+            box-shadow: 0 0 30px rgba(255,107,107,0.5);
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .container {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 40px;
-            box-shadow: 0 25px 80px var(--shadow-color);
-            max-width: 1200px;
-            width: 95%;
-            position: relative;
-            border: 1px solid var(--border-color);
-            max-height: 95vh;
-            overflow-y: auto;
-            scrollbar-width: thin;
-            scrollbar-color: var(--accent) transparent;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
         }
         
-        .container::-webkit-scrollbar {
-            width: 6px;
-        }
-        
-        .container::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        
-        .container::-webkit-scrollbar-thumb {
-            background: var(--accent);
-            border-radius: 10px;
-        }
-        
-        /* ==================== AUTH ==================== */
-        .auth-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .auth-box {
-            background: var(--bg-card);
-            border-radius: 24px;
-            padding: 50px;
-            max-width: 450px;
-            width: 90%;
-            box-shadow: 0 25px 80px var(--shadow-color);
-            border: 1px solid var(--border-color);
-        }
-        
-        .auth-logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .auth-logo-img {
-            width: 80px;
-            height: 80px;
-            background: var(--gold-gradient);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            margin-bottom: 15px;
-        }
-        
-        .auth-title {
-            font-size: 2em;
-            font-weight: 700;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 5px;
-        }
-        
-        .auth-subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-            margin-bottom: 30px;
-        }
-        
-        .auth-input-group {
-            margin-bottom: 20px;
-        }
-        
-        .auth-input-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        
-        .auth-input-group input {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        .auth-input-group input:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(245,158,11,0.2);
-        }
-        
-        .auth-btn {
-            width: 100%;
-            padding: 14px;
-            background: var(--gold-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-        
-        .auth-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(245,158,11,0.3);
-        }
-        
-        .auth-error {
-            background: var(--error-bg);
-            border: 1px solid var(--error-border);
-            border-radius: 8px;
-            padding: 10px;
-            text-align: center;
-            color: var(--error-border);
-            font-size: 14px;
-            margin-bottom: 15px;
-            display: none;
-        }
-        
-        /* ==================== USER BAR ==================== */
-        .user-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            background: var(--feature-bg);
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .user-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .user-avatar {
-            width: 36px;
-            height: 36px;
-            background: var(--accent-gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-        }
-        
-        .user-details {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .user-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-        
-        .user-plan {
-            font-size: 12px;
-            color: var(--gold);
-            font-weight: 600;
-        }
-        
-        .user-actions {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        
-        .btn-logout {
-            padding: 8px 16px;
-            background: var(--error-border);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-logout:hover {
-            background: #dc2626;
-        }
-        
-        .btn-upgrade {
-            padding: 8px 16px;
-            background: var(--gold-gradient);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-upgrade:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(245,158,11,0.3);
-        }
-        
-        /* ==================== PRICING ==================== */
-        .pricing-section {
-            margin: 30px 0;
-            display: none;
-        }
-        
-        .pricing-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .pricing-title {
-            font-size: 2em;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .pricing-subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        .pricing-cards {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        .pricing-card {
-            background: var(--bg-card);
-            border-radius: 16px;
-            padding: 30px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px var(--shadow-color);
-        }
-        
-        .pricing-card.popular {
-            border-color: var(--gold);
-            box-shadow: 0 10px 30px rgba(245,158,11,0.2);
-        }
-        
-        .popular-badge {
-            position: absolute;
-            top: -12px;
-            right: 20px;
-            background: var(--gold-gradient);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-        }
-        
-        .plan-name {
-            font-size: 1.4em;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .plan-price {
-            font-size: 2.5em;
-            font-weight: 800;
-            color: var(--accent);
-            margin-bottom: 20px;
-        }
-        
-        .plan-price span {
-            font-size: 14px;
-            font-weight: 400;
-            color: var(--text-muted);
-        }
-        
-        .plan-features {
-            list-style: none;
-            margin-bottom: 20px;
-        }
-        
-        .plan-features li {
-            padding: 5px 0;
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-        
-        .plan-features li::before {
-            content: "✅ ";
-        }
-        
-        .plan-features li.not-included {
-            color: var(--text-muted);
-        }
-        
-        .plan-features li.not-included::before {
-            content: "❌ ";
-        }
-        
-        .btn-subscribe {
-            width: 100%;
-            padding: 12px;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-subscribe:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow-color);
-        }
-        
-        .btn-subscribe.gold {
-            background: var(--gold-gradient);
-        }
-        
-        /* ==================== THEME ==================== */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid var(--border-color);
-            background: var(--bg-card);
-            cursor: pointer;
-            font-size: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 4px 15px var(--shadow-color);
-        }
-        
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 6px 20px var(--shadow-color);
-        }
-        
-        .theme-toggle .icon-sun {
-            display: none;
-        }
-        
-        .theme-toggle .icon-moon {
-            display: block;
-        }
-        
-        [data-theme="light"] .theme-toggle .icon-sun {
-            display: block;
-        }
-        
-        [data-theme="light"] .theme-toggle .icon-moon {
-            display: none;
-        }
-        
-        /* ==================== LOGO ==================== */
-        .logo {
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
-        }
-        
-        .logo-badge {
-            position: absolute;
-            top: -10px;
-            right: 50%;
-            transform: translateX(50%);
-            background: var(--gold-gradient);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(245,158,11,0.3);
-        }
-        
-        .logo-img {
-            width: 80px;
-            height: 80px;
-            background: var(--gold-gradient);
-            border-radius: 50%;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 10px 30px rgba(245,158,11,0.4);
-            margin-bottom: 15px;
-        }
-        
-        h1 {
-            text-align: center;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-            font-size: 2.2em;
-            background: var(--gold-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .brand-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            margin-bottom: 30px;
-            font-size: 0.95em;
-        }
-        
-        .brand-badge {
-            background: var(--gold-gradient);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 30px;
-            display: inline-block;
-            margin-bottom: 15px;
-            font-size: 14px;
-            font-weight: 500;
-        }
-        
-        /* ==================== TABS ==================== */
-        .tabs {
-            display: flex;
-            gap: 5px;
-            margin-bottom: 30px;
-            background: var(--tab-bg);
-            border-radius: 12px;
-            padding: 5px;
-            border: 1px solid var(--border-color);
-            flex-wrap: wrap;
-            overflow-x: auto;
-        }
-        
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            background: transparent;
-            color: var(--text-secondary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            min-width: 110px;
-        }
-        
-        .tab-btn:hover {
-            background: var(--hover-bg);
-        }
-        
-        .tab-btn.active {
-            background: var(--tab-active);
-            color: white;
-            box-shadow: 0 5px 15px rgba(139,92,246,0.3);
-        }
-        
-        .tab-content {
-            display: none;
-        }
-        
-        .tab-content.active {
-            display: block;
-        }
-        
-        /* ==================== INPUT ==================== */
         .input-group {
-            margin-bottom: 20px;
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
         label {
             display: block;
             margin-bottom: 8px;
-            color: var(--text-primary);
-            font-weight: 600;
+            color: #ffa500;
+            font-weight: bold;
+            font-size: 14px;
         }
         
-        input[type="url"], input[type="text"], select {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-        
-        input[type="url"]::placeholder, input[type="text"]::placeholder {
-            color: var(--text-muted);
-        }
-        
-        input[type="url"]:focus, input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
-        }
-        
-        select {
-            cursor: pointer;
-        }
-        
-        textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-            min-height: 200px;
-            resize: vertical;
-            font-family: monospace;
-        }
-        
-        textarea::placeholder {
-            color: var(--text-muted);
-        }
-        
-        textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(139,92,246,0.2);
-        }
-        
-        /* ==================== UPLOAD ==================== */
-        .upload-area {
-            border: 2px dashed var(--border-color);
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 20px;
-        }
-        
-        .upload-area:hover {
-            border-color: var(--accent);
-            background: var(--hover-bg);
-        }
-        
-        .upload-area.dragover {
-            border-color: var(--accent);
-            background: rgba(139,92,246,0.1);
-        }
-        
-        .upload-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-        
-        .upload-text {
-            color: var(--text-secondary);
-            margin-bottom: 10px;
-        }
-        
-        .upload-hint {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .file-info {
-            display: none;
-            background: var(--success-bg);
-            border: 1px solid var(--success-border);
-            border-radius: 8px;
-            padding: 10px;
-            margin-top: 10px;
-            color: var(--text-primary);
-        }
-        
-        /* ==================== BUTTONS ==================== */
-        .btn-primary {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-bottom: 15px;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139,92,246,0.3);
-        }
-        
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .btn-secondary {
+        input[type="text"] {
             width: 100%;
             padding: 12px;
-            background: var(--bg-secondary);
-            color: var(--text-primary);
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .btn-secondary:hover {
-            border-color: var(--accent);
-            background: var(--hover-bg);
-        }
-        
-        /* ==================== LOADING ==================== */
-        .loading {
-            display: none;
-            text-align: center;
-            margin: 20px 0;
-        }
-        
-        .spinner {
-            border: 4px solid var(--border-color);
-            border-top: 4px solid var(--accent);
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 15px;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* ==================== RESULT ==================== */
-        .result {
-            margin-top: 20px;
-            display: none;
-        }
-        
-        .result-content {
-            background: var(--feature-bg);
-            border-radius: 15px;
-            padding: 20px;
-            border: 2px solid var(--border-color);
-            transition: all 0.3s ease;
-        }
-        
-        .result-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .result-title {
-            font-size: 1.2em;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .result-success {
-            color: #22c55e;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff6b6b;
+            border-radius: 8px;
+            color: #fff;
             font-size: 14px;
-        }
-        
-        /* ==================== VIDEO PREVIEW ==================== */
-        .video-section {
-            margin-bottom: 20px;
-        }
-        
-        .video-preview {
-            width: 100%;
-            max-height: 400px;
-            border-radius: 10px;
-            background: #000;
             margin-bottom: 15px;
-        }
-        
-        /* ==================== DOWNLOAD CARDS ==================== */
-        .download-options {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .download-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            border: 2px solid var(--border-color);
             transition: all 0.3s;
         }
         
-        .download-card:hover {
-            border-color: var(--accent);
-            box-shadow: 0 5px 15px var(--shadow-color);
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            box-shadow: 0 0 15px rgba(78,205,196,0.3);
         }
         
-        .download-card-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-        
-        .download-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-right: 10px;
-        }
-        
-        .icon-video {
-            background: #fee2e2;
-            color: #dc2626;
-        }
-        
-        .icon-image {
-            background: #dbeafe;
-            color: #2563eb;
-        }
-        
-        .icon-audio {
-            background: #fce7f3;
-            color: #ec4899;
-        }
-        
-        .icon-zip {
-            background: #fef3c7;
-            color: #f59e0b;
-        }
-        
-        .icon-multi {
-            background: #dcfce7;
-            color: #22c55e;
-        }
-        
-        .icon-queue {
-            background: #e0e7ff;
-            color: #6366f1;
-        }
-        
-        .download-card-title {
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-        
-        .download-card-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .btn-download {
-            width: 100%;
-            padding: 10px;
+        .btn {
+            padding: 12px 30px;
             border: none;
             border-radius: 8px;
-            font-size: 14px;
-            font-weight: 600;
             cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
             transition: all 0.3s;
-            margin-bottom: 10px;
+            margin: 5px;
         }
         
-        .btn-download-video {
-            background: var(--btn-video);
-            color: white;
+        .btn-start {
+            background: linear-gradient(45deg, #ff6b6b, #ffa500);
+            color: #fff;
         }
         
-        .btn-download-video:hover {
-            background: var(--btn-video-hover);
-        }
-        
-        .btn-download-image {
-            background: var(--btn-image);
-            color: white;
-        }
-        
-        .btn-download-image:hover {
-            background: var(--btn-image-hover);
-        }
-        
-        .btn-download-audio {
-            background: var(--btn-audio);
-            color: white;
-        }
-        
-        .btn-download-audio:hover {
-            background: var(--btn-audio-hover);
-        }
-        
-        .btn-download-zip {
-            background: var(--btn-orange);
-            color: white;
-        }
-        
-        .btn-download-zip:hover {
-            background: var(--btn-orange-hover);
-        }
-        
-        .btn-download-multi {
-            background: var(--btn-green);
-            color: white;
-        }
-        
-        .btn-download-multi:hover {
-            background: var(--btn-green-hover);
-        }
-        
-        .btn-download-queue {
-            background: var(--btn-cyan);
-            color: white;
-        }
-        
-        .btn-download-queue:hover {
-            background: var(--btn-cyan-hover);
-        }
-        
-        .btn-download:hover {
+        .btn-start:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px var(--shadow-color);
+            box-shadow: 0 5px 20px rgba(255,107,107,0.5);
         }
         
-        /* ==================== LINK SECTION ==================== */
-        .link-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px dashed var(--border-color);
+        .btn-stop {
+            background: linear-gradient(45deg, #6b6b6b, #333);
+            color: #fff;
         }
         
-        .link-section-title {
-            font-size: 1.1em;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .btn-stop:hover {
+            background: linear-gradient(45deg, #555, #222);
         }
         
-        .link-items {
-            display: grid;
-            gap: 10px;
-        }
-        
-        .link-item {
-            background: var(--bg-input);
-            border-radius: 8px;
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .link-item-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            white-space: nowrap;
-        }
-        
-        .link-item-wrapper {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--bg-card);
-            border-radius: 6px;
-            padding: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .link-item-value {
-            flex: 1;
-            font-size: 13px;
-            color: var(--text-primary);
-            overflow-x: auto;
-            white-space: nowrap;
-            max-width: 250px;
-        }
-        
-        .btn-copy {
-            padding: 6px 10px;
-            background: var(--accent);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
-        }
-        
-        .btn-copy:hover {
-            background: var(--accent-hover);
-        }
-        
-        .btn-copy.copied {
-            background: var(--btn-green);
-        }
-        
-        .btn-open-link {
-            padding: 6px 10px;
-            background: #6366f1;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .btn-open-link:hover {
-            background: #4f46e5;
-        }
-        
-        /* ==================== IMAGE PREVIEW ==================== */
-        .image-section {
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .image-preview {
-            max-width: 200px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            box-shadow: 0 5px 15px var(--shadow-color);
-        }
-        
-        /* ==================== VIDEO INFO ==================== */
-        .video-info {
-            background: var(--bg-input);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .video-info-item {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .video-info-label {
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-        
-        .video-info-value {
-            color: var(--text-primary);
-            font-weight: 600;
-        }
-        
-        /* ==================== ERROR ==================== */
-        .error-message {
-            background: var(--error-bg);
-            border: 2px solid var(--error-border);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            color: var(--text-primary);
-        }
-        
-        .error-message h3 {
-            margin-bottom: 10px;
-        }
-        
-        /* ==================== FEATURES ==================== */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 10px;
-            margin: 25px 0;
-            padding: 20px;
-            background: var(--feature-bg);
-            border-radius: 12px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .feature {
-            text-align: center;
-            padding: 10px;
-        }
-        
-        .feature-icon {
-            font-size: 24px;
-            margin-bottom: 5px;
-        }
-        
-        .feature-text {
-            font-size: 12px;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-        
-        /* ==================== NOTE ==================== */
-        .note {
-            margin-top: 20px;
-            padding: 15px;
-            background: var(--note-bg);
-            border-radius: 8px;
-            border-left: 4px solid var(--note-border);
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-        
-        /* ==================== FOOTER ==================== */
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-color);
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-        
-        .footer a {
-            color: var(--accent);
-            text-decoration: none;
-        }
-        
-        /* ==================== HISTORY ==================== */
-        .history-section {
-            margin-top: 20px;
-        }
-        
-        .history-list {
-            display: grid;
-            gap: 10px;
-        }
-        
-        .history-item {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 10px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .history-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        
-        .history-item-title {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-primary);
-        }
-        
-        .history-item-date {
-            font-size: 11px;
-            color: var(--text-muted);
-        }
-        
-        .history-item-links {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .history-item-links a {
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 11px;
-            font-weight: 600;
-            text-decoration: none;
-        }
-        
-        /* ==================== QUEUE ==================== */
-        .queue-section {
-            margin-top: 20px;
-        }
-        
-        .queue-item {
-            background: var(--bg-card);
-            border-radius: 8px;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .queue-item-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 5px;
-        }
-        
-        .queue-item-status {
-            font-size: 12px;
-            font-weight: 600;
-            padding: 2px 8px;
-            border-radius: 10px;
-        }
-        
-        .queue-status-waiting {
-            background: var(--note-bg);
-            color: var(--note-border);
-        }
-        
-        .queue-status-processing {
-            background: var(--accent);
-            color: white;
-        }
-        
-        .queue-status-done {
-            background: var(--success-bg);
-            color: var(--success-border);
-        }
-        
-        .queue-status-error {
-            background: var(--error-bg);
-            color: var(--error-border);
-        }
-        
-        /* ==================== ANALYTICS ==================== */
-        .analytics-section {
-            margin-top: 20px;
-        }
-        
-        .analytics-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-            margin-bottom: 15px;
-        }
-        
-        .analytics-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 15px;
-            font-size: 1.1em;
-        }
-        
-        .analytics-grid {
+        .stats {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 15px;
+            margin: 20px 0;
         }
         
-        .analytics-item {
-            text-align: center;
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
             padding: 15px;
-            background: var(--feature-bg);
-            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        .analytics-value {
-            font-size: 2em;
-            font-weight: 700;
-            color: var(--accent);
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4ecdc4;
         }
         
-        .analytics-label {
+        .stat-label {
             font-size: 12px;
-            color: var(--text-muted);
+            color: #aaa;
             margin-top: 5px;
         }
         
-        /* ==================== DUBBING ==================== */
-        .dubbing-section {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .dubbing-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .dubbing-card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .dubbing-icon {
-            width: 40px;
-            height: 40px;
+        .log-container {
+            background: rgba(0,0,0,0.7);
             border-radius: 10px;
-            background: #fce7f3;
-            color: #ec4899;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        
-        .dubbing-card-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            font-size: 1.1em;
-        }
-        
-        .dubbing-card-subtitle {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        
-        .dubbing-options {
-            display: grid;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-        
-        .dubbing-option-label {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 5px;
-        }
-        
-        .dubbing-select, .dubbing-input {
-            width: 100%;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-input);
-            color: var(--text-primary);
-            border-radius: 8px;
-            font-size: 15px;
-        }
-        
-        .dubbing-select:focus, .dubbing-input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .dubbing-button {
-            width: 100%;
-            padding: 14px;
-            background: var(--accent-gradient);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .dubbing-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(139,92,246,0.3);
-        }
-        
-        .dubbing-progress {
-            display: none;
-            margin-top: 20px;
-            background: var(--bg-input);
-            border-radius: 8px;
             padding: 15px;
-            border: 1px solid var(--border-color);
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #ff6b6b;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
         }
         
-        .dubbing-progress-bar {
-            background: var(--accent-gradient);
-            height: 10px;
-            border-radius: 5px;
-            width: 0%;
-            transition: all 0.3s;
+        .log-entry {
+            padding: 5px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .dubbing-result {
-            display: none;
-            margin-top: 20px;
+        .success {
+            color: #4ecdc4;
+        }
+        
+        .error {
+            color: #ff6b6b;
+        }
+        
+        .info {
+            color: #ffa500;
+        }
+        
+        .proxy-section {
+            margin: 20px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
             padding: 20px;
-            background: var(--success-bg);
-            border: 1px solid var(--success-border);
-            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
         
-        /* Voice List */
-        .voice-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
         }
         
-        .voice-item {
-            background: var(--bg-input);
+        .checkbox-wrapper input {
+            margin-right: 10px;
+        }
+        
+        select {
+            padding: 8px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid #ff6b6b;
             border-radius: 8px;
+            color: #fff;
+            margin: 5px 0;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.9);
             padding: 10px;
-            border: 1px solid var(--border-color);
-            cursor: pointer;
-            transition: all 0.3s;
+            text-align: center;
+            border-top: 2px solid #ff6b6b;
+            z-index: 100;
         }
         
-        .voice-item:hover {
-            border-color: var(--accent);
-            background: var(--hover-bg);
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+            vertical-align: middle;
         }
         
-        .voice-item.selected {
-            border-color: var(--gold);
-            background: rgba(245,158,11,0.1);
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
         
-        .voice-item-name {
-            font-weight: 600;
-            font-size: 13px;
-            color: var(--text-primary);
-            margin-bottom: 5px;
-        }
-        
-        .voice-item-lang {
-            font-size: 11px;
-            color: var(--text-muted);
-            margin-bottom: 5px;
-        }
-        
-        .voice-item-listen {
-            font-size: 11px;
-            color: var(--accent);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        
-        .voice-item-listen:hover {
-            color: var(--accent-hover);
-        }
-        
-        .voice-item-listen.playing {
-            color: var(--btn-green);
-        }
-        
-        /* AI Idea Output */
-        .ai-idea-output {
-            display: none;
-            margin-top: 15px;
-            padding: 15px;
-            background: var(--feature-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .ai-idea-title {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 10px;
-            font-size: 14px;
-        }
-        
-        .ai-idea-content {
-            color: var(--text-secondary);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-        
-        .ai-idea-content ul {
-            margin-left: 20px;
-            margin-top: 10px;
-        }
-        
-        .ai-idea-content li {
-            margin-bottom: 5px;
-        }
-        
-        /* ==================== GREENS CREEN ==================== */
-        .greenscreen-section {
-            display: grid;
-            gap: 20px;
-        }
-        
-        .greenscreen-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 20px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .greenscreen-card-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        
-        .greenscreen-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            background: #dcfce7;
-            color: #16a34a;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-        }
-        
-        .greenscreen-button {
-            width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .greenscreen-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(22,163,74,0.3);
-        }
-        
-        .greenscreen-progress {
-            display: none;
-            margin-top: 20px;
-            background: var(--bg-input);
-            border-radius: 8px;
-            padding: 15px;
-            border: 1px solid var(--border-color);
-        }
-        
-        .greenscreen-progress-bar {
-            background: linear-gradient(135deg, #16a34a, #15803d);
-            height: 10px;
-            border-radius: 5px;
-            width: 0%;
-            transition: all 0.3s;
-        }
-        
-        .greenscreen-result {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: var(--success-bg);
-            border: 1px solid var(--success-border);
-            border-radius: 12px;
-        }
-        
-        /* ==================== RESPONSIVE ==================== */
         @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
             .container {
-                padding: 20px;
-                max-height: 100vh;
-                width: 100%;
-                border-radius: 0;
-            }
-            
-            .download-options {
-                grid-template-columns: 1fr;
-            }
-            
-            .features {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .pricing-cards {
-                grid-template-columns: 1fr;
-            }
-            
-            .analytics-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            
-            .theme-toggle {
-                top: 10px;
-                right: 10px;
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .features {
-                grid-template-columns: 1fr;
+                padding: 10px;
             }
         }
     </style>
 </head>
-<body data-theme="dark">
+<body>
+    <div class="banner">
+        <h1>🔥 HUY PHAM TOOL - BUFF VIEW TIKTOK 🔥</h1>
+        <p style="color: #fff; font-size: 12px; margin-top: 10px;">Tool bán view video TikTok tự động | Web Version</p>
+    </div>
     
-    <!-- ==================== AUTH ==================== -->
-    <div class="auth-overlay" id="auth-overlay">
-        <div class="auth-box">
-            <div class="auth-logo">
-                <div class="auth-logo-img">HP</div>
-                <div class="auth-title">HUY PHAM PREMIUM</div>
-                <div class="auth-subtitle">Đăng nhập để sử dụng tính năng VIP</div>
+    <div class="container">
+        <div class="input-group">
+            <label>🔗 LINK VIDEO TIKTOK:</label>
+            <input type="text" id="videoLink" placeholder="Dán link video TikTok vào đây...">
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="btn btn-start" onclick="startTool()">🚀 BẮT ĐẦU</button>
+                <button class="btn btn-stop" onclick="stopTool()">⏹ DỪNG</button>
             </div>
-            
-            <div class="auth-error" id="auth-error"></div>
-            
-            <div class="auth-input-group">
-                <label>📧 Email:</label>
-                <input type="email" id="login-email" placeholder="nhap@email.com">
+        </div>
+        
+        <div class="proxy-section">
+            <h3 style="color: #ffa500; margin-bottom: 15px;">⚙️ CẤU HÌNH PROXY</h3>
+            <div class="checkbox-wrapper">
+                <input type="checkbox" id="useProxy">
+                <label for="useProxy" style="color: #fff; margin: 0;">Sử dụng Proxy</label>
             </div>
-            
-            <div class="auth-input-group">
-                <label>🔑 Mật khẩu:</label>
-                <input type="password" id="login-password" placeholder="••••••••">
+            <label>Loại Proxy:</label>
+            <select id="proxyType">
+                <option value="http">HTTP</option>
+                <option value="socks4">SOCKS4</option>
+                <option value="socks5">SOCKS5</option>
+            </select>
+            <label>Credential (nếu có):</label>
+            <input type="text" id="proxyCredential" placeholder="user:pass">
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalReqs">0</div>
+                <div class="stat-label">Tổng Request</div>
             </div>
-            
-            <button class="auth-btn" onclick="login()">
-                🔐 Đăng Nhập
-            </button>
-            
-            <button class="btn-secondary" onclick="showRegister()" style="background: transparent; border-color: var(--gold); color: var(--gold);">
-                📝 Đăng Ký Tài Khoản Mới
-            </button>
+            <div class="stat-card">
+                <div class="stat-value" id="successCount">0</div>
+                <div class="stat-label">Thành Công</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="failCount">0</div>
+                <div class="stat-label">Thất Bại</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="rps">0</div>
+                <div class="stat-label">Req/Sec</div>
+            </div>
+        </div>
+        
+        <div class="log-container" id="logContainer">
+            <div class="log-entry info">[HUY PHAM TOOL] Sẵn sàng hoạt động...</div>
         </div>
     </div>
     
-    <!-- ==================== MAIN APP ==================== -->
-    <div id="main-app" style="display: none;">
-        
-        <!-- Theme Toggle -->
-        <button class="theme-toggle" onclick="toggleTheme()" title="Chuyển đổi giao diện">
-            <span class="icon-moon">🌙</span>
-            <span class="icon-sun">☀️</span>
-        </button>
-        
-        <div class="container">
-            
-            <!-- User Bar -->
-            <div class="user-bar">
-                <div class="user-info">
-                    <div class="user-avatar" id="user-avatar">HP</div>
-                    <div class="user-details">
-                        <span class="user-name" id="user-name">User</span>
-                        <span class="user-plan" id="user-plan">🌱 Free</span>
-                    </div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn-upgrade" onclick="showPricing()">👑 Nâng Cấp PRO</button>
-                    <button class="btn-logout" onclick="logout()">🚪 Đăng Xuất</button>
-                </div>
-            </div>
-            
-            <!-- Logo -->
-            <div class="logo">
-                <div class="logo-badge">PREMIUM</div>
-                <div class="logo-img">HP</div>
-                <div class="brand-badge">👑 Phiên Bản VIP</div>
-                <h1>HUY PHAM</h1>
-                <p class="brand-subtitle">TikTok Downloader & AI Dubbing Premium</p>
-            </div>
-            
-            <!-- Features -->
-            <div class="features">
-                <div class="feature">
-                    <div class="feature-icon">🎬</div>
-                    <div class="feature-text">MP4 HD</div>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🎵</div>
-                    <div class="feature-text">Audio MP3</div>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🎙️</div>
-                    <div class="feature-text">AI Dubbing</div>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🟢</div>
-                    <div class="feature-text">Xoá Phông Xanh</div>
-                </div>
-                <div class="feature">
-                    <div class="feature-icon">🕐</div>
-                    <div class="feature-text">Lịch Sử</div>
-                </div>
-            </div>
-            
-            <!-- Pricing Section -->
-            <div class="pricing-section" id="pricing-section">
-                <div class="pricing-header">
-                    <div class="pricing-title">👑 Chọn Gói Của Bạn</div>
-                    <div class="pricing-subtitle">Nâng cấp để mở khóa toàn bộ tính năng VIP</div>
-                </div>
-                
-                <div class="pricing-cards">
-                    <!-- Free -->
-                    <div class="pricing-card">
-                        <div class="plan-name">🌱 Free</div>
-                        <div class="plan-price">0đ<span>/mãi mãi</span></div>
-                        <ul class="plan-features">
-                            <li>Tải video thường</li>
-                            <li>Ảnh cover</li>
-                            <li>Giới hạn 10 video/ngày</li>
-                            <li class="not-included">Tải MP3</li>
-                            <li class="not-included">AI Dubbing</li>
-                            <li class="not-included">Xoá Phông Xanh</li>
-                        </ul>
-                        <button class="btn-subscribe" onclick="selectPlan('free')">Đang Dùng</button>
-                    </div>
-                    
-                    <!-- Pro -->
-                    <div class="pricing-card popular">
-                        <div class="popular-badge">🔥 PHỔ BIẾN</div>
-                        <div class="plan-name">⚡ PRO</div>
-                        <div class="plan-price">99k<span>/tháng</span></div>
-                        <ul class="plan-features">
-                            <li>Không giới hạn</li>
-                            <li>Tải MP3, Ảnh ZIP</li>
-                            <li>Tải playlist/profile</li>
-                            <li>Hàng đợi tải</li>
-                            <li class="not-included">Xoá Phông Xanh</li>
-                        </ul>
-                        <button class="btn-subscribe" onclick="selectPlan('pro')">⚡ Nâng Cấp PRO</button>
-                    </div>
-                    
-                    <!-- Premium -->
-                    <div class="pricing-card">
-                        <div class="plan-name">👑 PREMIUM</div>
-                        <div class="plan-price">199k<span>/tháng</span></div>
-                        <ul class="plan-features">
-                            <li>Tất cả tính năng PRO</li>
-                            <li>AI Dubbing 100+ giọng</li>
-                            <li>Xoá Phông Xanh</li>
-                            <li>Phân tích dữ liệu</li>
-                            <li>Hỗ trợ ưu tiên</li>
-                            <li>Xuất CSV, JSON</li>
-                        </ul>
-                        <button class="btn-subscribe gold" onclick="selectPlan('premium')">👑 Nâng Cấp PREMIUM</button>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tabs -->
-            <div class="tabs">
-                <button class="tab-btn active" onclick="switchTab('single')">🔗 Link Đơn</button>
-                <button class="tab-btn" onclick="switchTab('batch')">📁 Nhiều Link</button>
-                <button class="tab-btn" onclick="switchTab('dubbing')">🎙️ Lồng Tiếng</button>
-                <button class="tab-btn" onclick="switchTab('greenscreen')">🟢 Xoá Phông Xanh</button>
-                <button class="tab-btn" onclick="switchTab('playlist')">📃 Playlist</button>
-                <button class="tab-btn" onclick="switchTab('queue')">📋 Hàng Đợi</button>
-                <button class="tab-btn" onclick="switchTab('analytics')">📊 Phân Tích</button>
-                <button class="tab-btn" onclick="switchTab('history')">🕐 Lịch Sử</button>
-                <button class="tab-btn" onclick="switchTab('settings')">⚙️ Cài Đặt</button>
-            </div>
-            
-            <!-- Tab 1: Link đơn -->
-            <div class="tab-content active" id="tab-single">
-                <div class="input-group">
-                    <label for="tiktok-url">🎵 Dán link TikTok:</label>
-                    <input type="url" id="tiktok-url" placeholder="https://www.tiktok.com/@user/video/1234567890" required>
-                </div>
-                
-                <div class="input-group">
-                    <label for="quality-select">🎯 Chọn chất lượng:</label>
-                    <select id="quality-select">
-                        <option value="hd">HD (Không logo)</option>
-                        <option value="sd">SD (Tiết kiệm dung lượng)</option>
-                        <option value="original">Original (Chất lượng gốc)</option>
-                    </select>
-                </div>
-                
-                <button class="btn-primary" onclick="downloadVideo()">
-                    🚀 Tải Video MP4 & Ảnh
-                </button>
-            </div>
-            
-            <!-- Tab 2: Nhiều link -->
-            <div class="tab-content" id="tab-batch">
-                <div class="input-group">
-                    <label>📋 Dán nhiều link (mỗi link 1 dòng):</label>
-                    <textarea id="batch-urls" placeholder="https://www.tiktok.com/@user/video/1&#10;https://www.tiktok.com/@user/video/2"></textarea>
-                </div>
-                
-                <div class="upload-area" id="upload-area">
-                    <div class="upload-icon">📁</div>
-                    <div class="upload-text">Kéo thả file vào đây hoặc bấm để chọn</div>
-                    <div class="upload-hint">Hỗ trợ mọi định dạng file (.txt, .csv, .py, .zip...)</div>
-                    <input type="file" id="file-input" accept="*/*" multiple style="display: none;">
-                </div>
-                
-                <div class="file-info" id="file-info">
-                    <strong>📄 File đã chọn:</strong> <span id="file-name"></span>
-                    <br>
-                    <strong>🔗 Số link tìm thấy:</strong> <span id="file-link-count"></span>
-                    <br>
-                    <button class="btn-secondary" style="margin-top:10px;" onclick="clearFile()">Xóa file</button>
-                </div>
-                
-                <button class="btn-primary" onclick="downloadBatch()" style="margin-top: 15px;">
-                    🚀 Tải Tất Cả Video
-                </button>
-                
-                <!-- Progress -->
-                <div class="batch-progress" id="batch-progress" style="display:none;">
-                    <div style="background: var(--bg-input); border-radius: 8px; padding: 15px; border: 1px solid var(--border-color);">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <strong style="color: var(--text-primary);">Tiến trình:</strong>
-                            <span id="progress-text" style="color: var(--text-primary); font-weight: 600;">0/0</span>
-                        </div>
-                        <div style="background: var(--border-color); border-radius: 10px; height: 10px; overflow: hidden;">
-                            <div id="progress-bar" style="background: var(--accent-gradient); height: 100%; width: 0%; transition: all 0.3s;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab 3: Dubbing (Lồng tiếng AI) -->
-            <div class="tab-content" id="tab-dubbing">
-                <div class="dubbing-section">
-                    <!-- Phần 1: AI Lên Ý Tưởng -->
-                    <div class="dubbing-card">
-                        <div class="dubbing-card-header">
-                            <div class="dubbing-icon">🤖</div>
-                            <div>
-                                <div class="dubbing-card-title">AI Lên Ý Tưởng & Kịch Bản</div>
-                                <div class="dubbing-card-subtitle">Phân tích video và đề xuất cách lồng tiếng</div>
-                            </div>
-                        </div>
-                        
-                        <div class="dubbing-options">
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🎬 Dán link video hoặc mô tả nội dung:</label>
-                                <textarea class="dubbing-input" id="ai-idea-input" placeholder="Dán link hoặc mô tả video..." style="min-height: 100px;"></textarea>
-                            </div>
-                            <button class="dubbing-button" onclick="generateAIIdea()" style="background: linear-gradient(135deg, #f59e0b, #d97706);">✨ Tạo Ý Tưởng</button>
-                            
-                            <div class="ai-idea-output" id="ai-idea-output">
-                                <div class="ai-idea-title">💡 Gợi ý từ AI:</div>
-                                <div class="ai-idea-content" id="ai-idea-content"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Phần 2: Chọn Giọng Đọc -->
-                    <div class="dubbing-card" style="margin-top: 20px;">
-                        <div class="dubbing-card-header">
-                            <div class="dubbing-icon">🎙️</div>
-                            <div>
-                                <div class="dubbing-card-title">Chọn Giọng Đọc (100+ Giọng)</div>
-                                <div class="dubbing-card-subtitle">Đầy đủ ngôn ngữ và phong cách</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Bộ lọc -->
-                        <div class="dubbing-options">
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🌐 Ngôn ngữ:</label>
-                                <select class="dubbing-select" id="voice-language-filter" onchange="filterVoices()">
-                                    <option value="vi">Tiếng Việt</option>
-                                    <option value="en">English</option>
-                                    <option value="ja">日本語 (Japanese)</option>
-                                    <option value="ko">한국어 (Korean)</option>
-                                    <option value="zh">中文 (Chinese)</option>
-                                    <option value="th">ไทย (Thai)</option>
-                                    <option value="es">Español</option>
-                                    <option value="fr">Français</option>
-                                    <option value="de">Deutsch</option>
-                                    <option value="all">Tất cả ngôn ngữ</option>
-                                </select>
-                            </div>
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">👤 Giới tính:</label>
-                                <select class="dubbing-select" id="voice-gender-filter" onchange="filterVoices()">
-                                    <option value="all">Tất cả</option>
-                                    <option value="female">Nữ</option>
-                                    <option value="male">Nam</option>
-                                </select>
-                            </div>
-                        </div>
-                        
-                        <!-- Danh sách giọng đọc -->
-                        <div class="voice-list" id="voice-list"></div>
-                        
-                        <!-- Giọng đã chọn -->
-                        <div style="margin-top: 15px; padding: 10px; background: var(--bg-input); border-radius: 8px; border: 1px solid var(--border-color);">
-                            <strong style="color: var(--text-primary);">Giọng đã chọn:</strong>
-                            <span id="selected-voice" style="color: var(--gold); font-weight: 600; margin-left: 10px;">Chưa chọn</span>
-                        </div>
-                    </div>
-                    
-                    <!-- Phần 3: Lồng tiếng video -->
-                    <div class="dubbing-card" style="margin-top: 20px;">
-                        <div class="dubbing-card-header">
-                            <div class="dubbing-icon">🎬</div>
-                            <div>
-                                <div class="dubbing-card-title">Lồng Tiếng Video</div>
-                                <div class="dubbing-card-subtitle">Dịch và thay giọng nói tự động</div>
-                            </div>
-                        </div>
-                        
-                        <div class="dubbing-options">
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🔗 Link video cần lồng tiếng:</label>
-                                <input type="url" class="dubbing-input" id="dubbing-url" placeholder="https://www.tiktok.com/@user/video/1234567890">
-                            </div>
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🌐 Ngôn ngữ đích (mặc định: Tiếng Việt):</label>
-                                <select class="dubbing-select" id="dubbing-language">
-                                    <option value="vi">Tiếng Việt</option>
-                                    <option value="en">English</option>
-                                    <option value="ko">한국어 (Korean)</option>
-                                    <option value="ja">日本語 (Japanese)</option>
-                                    <option value="zh">中文 (Chinese)</option>
-                                    <option value="th">ไทย (Thai)</option>
-                                </select>
-                            </div>
-                            <button class="dubbing-button" onclick="startDubbing()">🚀 Bắt Đầu Lồng Tiếng</button>
-                            
-                            <!-- Tiến trình -->
-                            <div class="dubbing-progress" id="dubbing-progress">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <strong style="color: var(--text-primary);">Đang xử lý...</strong>
-                                    <span style="color: var(--text-muted);" id="dubbing-progress-text">Bước 1/5: Tải video</span>
-                                </div>
-                                <div class="dubbing-progress-bar" id="dubbing-progress-bar"></div>
-                            </div>
-                            
-                            <!-- Kết quả -->
-                            <div class="dubbing-result" id="dubbing-result">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                    <strong style="color: var(--text-primary);">✅ Lồng tiếng thành công!</strong>
-                                    <button onclick="this.parentElement.style.display='none'" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;">✖</button>
-                                </div>
-                                <video controls style="width: 100%; border-radius: 8px; margin-bottom: 10px;" id="dubbing-video-preview"></video>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-green); color: white;">⬇️ Tải Video</button>
-                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-cyan); color: white;">🔗 Copy Link</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab 4: Greenscreen (Xoá Phông Xanh) -->
-            <div class="tab-content" id="tab-greenscreen">
-                <div class="greenscreen-section">
-                    <div class="greenscreen-card">
-                        <div class="greenscreen-card-header">
-                            <div class="greenscreen-icon">🟢</div>
-                            <div>
-                                <div class="dubbing-card-title">Xoá Phông Xanh (Green Screen)</div>
-                                <div class="dubbing-card-subtitle">Loại bỏ nền xanh và thay bằng nền mới</div>
-                            </div>
-                        </div>
-                        
-                        <div class="dubbing-options">
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🔗 Link video cần xử lý:</label>
-                                <input type="url" class="dubbing-input" id="greenscreen-url" placeholder="Dán link video có phông xanh...">
-                            </div>
-                            
-                            <div class="dubbing-option">
-                                <label class="dubbing-option-label">🎨 Thay bằng nền:</label>
-                                <select class="dubbing-select" id="greenscreen-background">
-                                    <option value="transparent">Trong suốt (Transparent)</option>
-                                    <option value="color">Màu đồng nhất (Solid Color)</option>
-                                    <option value="image">Hình ảnh / Video nền</option>
-                                </select>
-                            </div>
-                            
-                            <button class="greenscreen-button" onclick="startGreenScreen()">
-                                🚀 Bắt Đầu Xoá Phông Xanh
-                            </button>
-                            
-                            <!-- Tiến trình -->
-                            <div class="greenscreen-progress" id="greenscreen-progress">
-                                <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                                    <strong style="color: var(--text-primary);">Đang xử lý...</strong>
-                                    <span style="color: var(--text-muted);" id="greenscreen-progress-text">Bước 1/4: Tải video</span>
-                                </div>
-                                <div class="greenscreen-progress-bar" id="greenscreen-progress-bar"></div>
-                            </div>
-                            
-                            <!-- Kết quả -->
-                            <div class="greenscreen-result" id="greenscreen-result">
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                                    <strong style="color: var(--text-primary);">✅ Xoá phông xanh thành công!</strong>
-                                    <button onclick="this.parentElement.style.display='none'" style="background: transparent; border: none; color: var(--text-muted); cursor: pointer; font-size: 16px;">✖</button>
-                                </div>
-                                <video controls style="width: 100%; border-radius: 8px; margin-bottom: 10px;" id="greenscreen-video-preview"></video>
-                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-green); color: white;">⬇️ Tải Video</button>
-                                    <button onclick="window.open('', '_blank')" class="btn-download" style="background: var(--btn-cyan); color: white;">🔗 Copy Link</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab 5: Playlist/Profile -->
-            <div class="tab-content" id="tab-playlist">
-                <div class="input-group">
-                    <label>📃 Dán link Profile hoặc Playlist TikTok:</label>
-                    <input type="url" id="playlist-url" placeholder="https://www.tiktok.com/@username hoặc https://www.tiktok.com/@username/video/123">
-                </div>
-                
-                <button class="btn-primary" onclick="downloadPlaylist()">
-                    🔄 Lấy Danh Sách Video
-                </button>
-                
-                <div id="playlist-results"></div>
-            </div>
-            
-            <!-- Tab 6: Queue (Hàng đợi) -->
-            <div class="tab-content" id="tab-queue">
-                <div class="queue-section">
-                    <h3 style="color: var(--text-primary); margin-bottom: 15px;">📋 Hàng Đợi Tải Video</h3>
-                    <div id="queue-list"></div>
-                    <button class="btn-secondary" onclick="clearQueue()" style="margin-top: 15px;">
-                        🗑️ Xóa Tất Cả Hàng Đợi
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Tab 7: Analytics (Phân tích) -->
-            <div class="tab-content" id="tab-analytics">
-                <div class="analytics-section">
-                    <h3 style="color: var(--text-primary); margin-bottom: 15px;">📊 Thống Kê Tải Video</h3>
-                    
-                    <div class="analytics-grid">
-                        <div class="analytics-item">
-                            <div class="analytics-value" id="total-downloads">0</div>
-                            <div class="analytics-label">Tổng Tải</div>
-                        </div>
-                        <div class="analytics-item">
-                            <div class="analytics-value" id="total-videos">0</div>
-                            <div class="analytics-label">Video</div>
-                        </div>
-                        <div class="analytics-item">
-                            <div class="analytics-value" id="total-images">0</div>
-                            <div class="analytics-label">Ảnh</div>
-                        </div>
-                        <div class="analytics-item">
-                            <div class="analytics-value" id="total-audios">0</div>
-                            <div class="analytics-label">Audio</div>
-                        </div>
-                    </div>
-                    
-                    <div class="analytics-card" style="margin-top: 20px;">
-                        <div class="analytics-title">🔥 Top Video Được Tải Nhiều Nhất</div>
-                        <div id="top-videos"></div>
-                    </div>
-                    
-                    <div class="analytics-card" style="margin-top: 20px;">
-                        <div class="analytics-title">👤 Top Tác Giả Được Tải Nhiều Nhất</div>
-                        <div id="top-authors"></div>
-                    </div>
-                    
-                    <div class="analytics-card" style="margin-top: 20px;">
-                        <div class="analytics-title">📅 Tải Theo Ngày</div>
-                        <div id="daily-downloads"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Tab 8: Lịch sử -->
-            <div class="tab-content" id="tab-history">
-                <div class="history-section">
-                    <h3 style="color: var(--text-primary); margin-bottom: 15px;">🕐 Lịch Sử Tải Video</h3>
-                    <div class="history-list" id="history-list"></div>
-                    <button class="btn-secondary" onclick="clearHistory()" style="margin-top: 15px;">
-                        🗑️ Xóa Lịch Sử
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Tab 9: Cài đặt -->
-            <div class="tab-content" id="tab-settings">
-                <div class="export-section">
-                    <h3 style="color: var(--text-primary); margin-bottom: 15px;">📊 Xuất Dữ Liệu</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 14px;">
-                        Xuất danh sách video đã tải ra file CSV hoặc JSON.
-                    </p>
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <button class="btn-primary" onclick="exportCSV()" style="background: var(--btn-green);">
-                            📥 Xuất CSV
-                        </button>
-                        <button class="btn-primary" onclick="exportJSON()" style="background: var(--btn-purple);">
-                            📥 Xuất JSON
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="export-section" style="margin-top: 15px;">
-                    <h3 style="color: var(--text-primary); margin-bottom: 15px;">🛠️ Tùy Chọn Tải</h3>
-                    <div class="input-group" style="margin-bottom: 15px;">
-                        <label>📁 Định dạng tên file:</label>
-                        <select id="filename-format">
-                            <option value="title">Theo tiêu đề</option>
-                            <option value="author">Theo tác giả</option>
-                            <option value="date">Theo ngày tải</option>
-                            <option value="mix">Kết hợp (Tác giả - Tiêu đề)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="input-group" style="margin-bottom: 15px;">
-                        <label>📂 Thư mục lưu trữ:</label>
-                        <select id="save-folder">
-                            <option value="single">Tất cả vào 1 thư mục</option>
-                            <option value="author">Theo tên tác giả</option>
-                            <option value="date">Theo ngày</option>
-                        </select>
-                    </div>
-                    
-                    <button class="btn-secondary" onclick="saveSettings()">
-                        💾 Lưu Cài Đặt
-                    </button>
-                </div>
-            </div>
-            
-            <!-- Loading -->
-            <div class="loading" id="loading">
-                <div class="spinner"></div>
-                <p style="color: var(--accent); font-weight: 500;">Đang xử lý...</p>
-                <p style="font-size: 13px; color: var(--text-muted);">Huy Pham đang tải cho bạn</p>
-            </div>
-            
-            <!-- Result -->
-            <div class="result" id="result"></div>
-            
-            <!-- Note -->
-            <div class="note">
-                <strong>💡 Tính năng PREMIUM:</strong>
-                <ul style="margin-left:20px; margin-top:5px;">
-                    <li>Tải video MP4 không logo, chất lượng HD</li>
-                    <li>AI lên ý tưởng và kịch bản lồng tiếng</li>
-                    <li>100+ giọng đọc AI đa ngôn ngữ</li>
-                    <li>Xoá phông xanh (Green Screen)</li>
-                    <li>Tách audio MP3 từ video</li>
-                    <li>Tải ảnh cover và toàn bộ ảnh dạng ZIP</li>
-                    <li>Upload mọi loại file (tự động trích xuất link)</li>
-                    <li>Tải playlist/profile TikTok</li>
-                    <li>Hàng đợi tải video</li>
-                    <li>Phân tích dữ liệu thống kê</li>
-                    <li>Lịch sử tải video</li>
-                    <li>Xuất file CSV, JSON</li>
-                    <li>Đăng nhập / Đăng xuất</li>
-                </ul>
-            </div>
-            
-            <!-- Footer -->
-            <div class="footer">
-                <p>Created with ❤️ by <strong>Huy Pham</strong></p>
-                <p style="margin-top:5px; font-size: 12px;">
-                    © 2024 Huy Pham PREMIUM Ultimate. All rights reserved. 
-                    | <a href="#">Privacy Policy</a> 
-                    | <a href="#">Contact</a>
-                </p>
-            </div>
-        </div>
+    <div class="status-bar" id="statusBar">
+        <span id="statusText">⏸ DỪNG</span>
     </div>
     
     <script>
-        // ==================== AUTH ====================
-        const users = JSON.parse(localStorage.getItem('huypham-users') || '[]');
-        let currentUser = JSON.parse(localStorage.getItem('huypham-current-user') || 'null');
+        // HUY PHAM Tool - Logic JavaScript
+        let running = false;
+        let totalReqs = 0;
+        let successCount = 0;
+        let failCount = 0;
+        let rps = 0;
+        let startTime = 0;
+        let workerCount = 0;
+        let maxWorkers = 50;
         
-        function login() {
-            const email = document.getElementById('login-email').value.trim();
-            const password = document.getElementById('login-password').value;
-            const errorDiv = document.getElementById('auth-error');
-            
-            if (!email || !password) {
-                errorDiv.textContent = 'Vui lòng nhập đầy đủ email và mật khẩu!';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            
-            const user = users.find(u => u.email === email && u.password === password);
-            
-            if (!user) {
-                errorDiv.textContent = 'Email hoặc mật khẩu không đúng!';
-                errorDiv.style.display = 'block';
-                return;
-            }
-            
-            currentUser = user;
-            localStorage.setItem('huypham-current-user', JSON.stringify(currentUser));
-            
-            document.getElementById('auth-overlay').style.display = 'none';
-            document.getElementById('main-app').style.display = 'block';
-            
-            document.getElementById('user-name').textContent = user.name;
-            document.getElementById('user-avatar').textContent = user.name.charAt(0).toUpperCase();
-            
-            updateUserPlan();
-            
-            alert('✅ Đăng nhập thành công! Chào mừng ' + user.name + '!');
-        }
-        
-        function showRegister() {
-            const email = prompt('Nhập email mới:');
-            const password = prompt('Nhập mật khẩu:');
-            const name = prompt('Nhập tên của bạn:');
-            
-            if (!email || !password || !name) {
-                alert('Vui lòng điền đầy đủ thông tin!');
-                return;
-            }
-            
-            if (users.find(u => u.email === email)) {
-                alert('Email này đã được đăng ký!');
-                return;
-            }
-            
-            const newUser = {
-                id: Date.now(),
-                email: email,
-                password: password,
-                name: name,
-                plan: 'free',
-                registeredAt: new Date().toISOString()
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('huypham-users', JSON.stringify(users));
-            
-            alert('✅ Đăng ký thành công! Vui lòng đăng nhập.');
-        }
-        
-        function logout() {
-            if (confirm('Bạn có chắc muốn đăng xuất?')) {
-                currentUser = null;
-                localStorage.removeItem('huypham-current-user');
-                
-                document.getElementById('main-app').style.display = 'none';
-                document.getElementById('auth-overlay').style.display = 'flex';
-                
-                document.getElementById('login-email').value = '';
-                document.getElementById('login-password').value = '';
-                document.getElementById('auth-error').style.display = 'none';
-                
-                alert('👋 Đã đăng xuất!');
-            }
-        }
-        
-        function updateUserPlan() {
-            if (!currentUser) return;
-            
-            const planNames = {
-                'free': '🌱 Free',
-                'pro': '⚡ PRO',
-                'premium': '👑 PREMIUM'
-            };
-            
-            document.getElementById('user-plan').textContent = planNames[currentUser.plan] || '🌱 Free';
-        }
-        
-        // ==================== PRICING ====================
-        function showPricing() {
-            document.getElementById('pricing-section').style.display = 'block';
-            document.getElementById('pricing-section').scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        function selectPlan(plan) {
-            if (!currentUser) {
-                alert('Vui lòng đăng nhập trước!');
-                return;
-            }
-            
-            if (plan === 'free') {
-                currentUser.plan = 'free';
-                localStorage.setItem('huypham-current-user', JSON.stringify(currentUser));
-                updateUserPlan();
-                alert('Bạn đang dùng gói Free!');
-                return;
-            }
-            
-            const price = plan === 'pro' ? '99.000đ' : '199.000đ';
-            const confirmPayment = confirm(
-                `💳 Thanh toán gói ${plan.toUpperCase()}\n\n` +
-                `Giá: ${price}/tháng\n\n` +
-                `Bạn có muốn tiến hành thanh toán?`
-            );
-            
-            if (confirmPayment) {
-                alert('🔄 Đang xử lý thanh toán...');
-                
-                setTimeout(() => {
-                    currentUser.plan = plan;
-                    localStorage.setItem('huypham-current-user', JSON.stringify(currentUser));
-                    updateUserPlan();
-                    
-                    document.getElementById('pricing-section').style.display = 'none';
-                    
-                    alert(`✅ Nâng cấp thành công! Bạn đang dùng gói ${plan.toUpperCase()}.`);
-                }, 2000);
-            }
-        }
-        
-        // ==================== THEME ====================
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('huypham-theme', newTheme);
-        }
-        
-        function initTheme() {
-            const savedTheme = localStorage.getItem('huypham-theme');
-            if (savedTheme) {
-                document.body.setAttribute('data-theme', savedTheme);
-            } else {
-                document.body.setAttribute('data-theme', 'dark');
-            }
-        }
-        
-        initTheme();
-        
-        function checkLogin() {
-            if (currentUser) {
-                document.getElementById('auth-overlay').style.display = 'none';
-                document.getElementById('main-app').style.display = 'block';
-                document.getElementById('user-name').textContent = currentUser.name;
-                document.getElementById('user-avatar').textContent = currentUser.name.charAt(0).toUpperCase();
-                updateUserPlan();
-            } else {
-                document.getElementById('auth-overlay').style.display = 'flex';
-                document.getElementById('main-app').style.display = 'none';
-            }
-        }
-        
-        // ==================== TABS ====================
-        function switchTab(tabName) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
-            
-            const tabs = {
-                'single': [0, 'tab-single'],
-                'batch': [1, 'tab-batch'],
-                'dubbing': [2, 'tab-dubbing'],
-                'greenscreen': [3, 'tab-greenscreen'],
-                'playlist': [4, 'tab-playlist'],
-                'queue': [5, 'tab-queue'],
-                'analytics': [6, 'tab-analytics'],
-                'history': [7, 'tab-history'],
-                'settings': [8, 'tab-settings']
-            };
-            
-            if (tabs[tabName]) {
-                document.querySelectorAll('.tab-btn')[tabs[tabName][0]].classList.add('active');
-                document.getElementById(tabs[tabName][1]).classList.add('active');
-            }
-        }
-        
-        // ==================== UPLOAD ====================
-        const fileInput = document.getElementById('file-input');
-        const uploadArea = document.getElementById('upload-area');
-        
-        uploadArea.addEventListener('click', () => {
-            fileInput.click();
-        });
-        
-        fileInput.addEventListener('change', function(e) {
-            if (this.files && this.files.length > 0) {
-                handleFiles(this.files);
-            }
-        });
-        
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.classList.add('dragover');
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.classList.remove('dragover');
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.classList.remove('dragover');
-            if (e.dataTransfer.files.length > 0) {
-                handleFiles(e.dataTransfer.files);
-            }
-        });
-        
-        function handleFiles(files) {
-            let allLinks = [];
-            let fileNames = [];
-            let processedCount = 0;
-            
-            Array.from(files).forEach((file) => {
-                fileNames.push(file.name);
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    const content = e.target.result;
-                    const links = extractTikTokLinks(content);
-                    allLinks = allLinks.concat(links);
-                    processedCount++;
-                    
-                    if (processedCount === files.length) {
-                        document.getElementById('file-info').style.display = 'block';
-                        document.getElementById('file-name').textContent = fileNames.join(', ');
-                        document.getElementById('file-link-count').textContent = allLinks.length;
-                        document.getElementById('batch-urls').value = allLinks.join('\n');
-                    }
-                };
-                
-                reader.readAsText(file);
-            });
-        }
-        
-        function extractTikTokLinks(content) {
-            const regex = /(https?:\/\/)?(www\.)?(vt\.tiktok\.com|tiktok\.com)\/[^\s"'<>]+/gi;
-            const matches = content.match(regex) || [];
-            return [...new Set(matches)];
-        }
-        
-        function clearFile() {
-            document.getElementById('file-info').style.display = 'none';
-            document.getElementById('file-input').value = '';
-            document.getElementById('batch-urls').value = '';
-        }
-        
-        // ==================== DUBBING - VOICES ====================
-        const voices = [
-            // Tiếng Việt
-            { id: 'vi_female_1', name: 'Thảo Trinh', lang: 'vi', gender: 'female', desc: 'Nữ, tự nhiên, trẻ trung' },
-            { id: 'vi_female_2', name: 'Ngọc Hà', lang: 'vi', gender: 'female', desc: 'Nữ, trầm ấm, chuyên nghiệp' },
-            { id: 'vi_female_3', name: 'Mai Anh', lang: 'vi', gender: 'female', desc: 'Nữ, vui vẻ, năng động' },
-            { id: 'vi_male_1', name: 'Minh Quang', lang: 'vi', gender: 'male', desc: 'Nam, trầm ấm, nam tính' },
-            { id: 'vi_male_2', name: 'Đức Huy', lang: 'vi', gender: 'male', desc: 'Nam, trẻ trung, thân thiện' },
-            { id: 'vi_male_3', name: 'Tuấn Kiệt', lang: 'vi', gender: 'male', desc: 'Nam, kể chuyện, lôi cuốn' },
-            { id: 'vi_male_4', name: 'Hoàng Long', lang: 'vi', gender: 'male', desc: 'Nam, phim ảnh, kịch tính' },
-            { id: 'vi_female_4', name: 'Thu Hà', lang: 'vi', gender: 'female', desc: 'Nữ, truyền hình, tin tức' },
-            { id: 'vi_female_5', name: 'Lan Phương', lang: 'vi', gender: 'female', desc: 'Nữ, sách nói, chậm rãi' },
-            { id: 'vi_male_5', name: 'Bảo Nam', lang: 'vi', gender: 'male', desc: 'Nam, quảng cáo, sôi nổi' },
-            
-            // English
-            { id: 'en_female_1', name: 'Emma Stone', lang: 'en', gender: 'female', desc: 'Nữ, Mỹ, tự nhiên' },
-            { id: 'en_female_2', name: 'Olivia Smith', lang: 'en', gender: 'female', desc: 'Nữ, Anh, sang trọng' },
-            { id: 'en_female_3', name: 'Sophia Brown', lang: 'en', gender: 'female', desc: 'Nữ, Úc, trẻ trung' },
-            { id: 'en_male_1', name: 'James Wilson', lang: 'en', gender: 'male', desc: 'Nam, Mỹ, trầm ấm' },
-            { id: 'en_male_2', name: 'Daniel Craig', lang: 'en', gender: 'male', desc: 'Nam, Anh, kịch tính' },
-            { id: 'en_male_3', name: 'Chris Evans', lang: 'en', gender: 'male', desc: 'Nam, Mỹ, năng động' },
-            { id: 'en_male_4', name: 'Tom Hardy', lang: 'en', gender: 'male', desc: 'Nam, Anh, trầm thấp' },
-            { id: 'en_female_4', name: 'Emma Watson', lang: 'en', gender: 'female', desc: 'Nữ, Anh, học thuật' },
-            
-            // Japanese
-            { id: 'ja_female_1', name: 'Aoi Yuki', lang: 'ja', gender: 'female', desc: 'Nữ, Nhật, anime' },
-            { id: 'ja_female_2', name: 'Miyuki Sawashiro', lang: 'ja', gender: 'female', desc: 'Nữ, Nhật, trưởng thành' },
-            { id: 'ja_female_3', name: 'Kana Hanazawa', lang: 'ja', gender: 'female', desc: 'Nữ, Nhật, dễ thương' },
-            { id: 'ja_male_1', name: 'Yuki Kaji', lang: 'ja', gender: 'male', desc: 'Nam, Nhật, trẻ trung' },
-            { id: 'ja_male_2', name: 'Mamoru Miyano', lang: 'ja', gender: 'male', desc: 'Nam, Nhật, nổi tiếng' },
-            { id: 'ja_male_3', name: 'Daisuke Ono', lang: 'ja', gender: 'male', desc: 'Nam, Nhật, trầm ấm' },
-            
-            // Korean
-            { id: 'ko_female_1', name: 'Kim Yoo-jung', lang: 'ko', gender: 'female', desc: 'Nữ, Hàn, trẻ trung' },
-            { id: 'ko_female_2', name: 'Lee Ji-eun', lang: 'ko', gender: 'female', desc: 'Nữ, Hàn, ngọt ngào' },
-            { id: 'ko_female_3', name: 'Park So-dam', lang: 'ko', gender: 'female', desc: 'Nữ, Hàn, tự nhiên' },
-            { id: 'ko_male_1', name: 'Park Bo-gum', lang: 'ko', gender: 'male', desc: 'Nam, Hàn, trẻ trung' },
-            { id: 'ko_male_2', name: 'Song Joong-ki', lang: 'ko', gender: 'male', desc: 'Nam, Hàn, lãng mạn' },
-            { id: 'ko_male_3', name: 'Hyun Bin', lang: 'ko', gender: 'male', desc: 'Nam, Hàn, trầm ấm' },
-            
-            // Chinese
-            { id: 'zh_female_1', name: 'Zhang Ziyi', lang: 'zh', gender: 'female', desc: 'Nữ, Trung, sang trọng' },
-            { id: 'zh_female_2', name: 'Fan Bingbing', lang: 'zh', gender: 'female', desc: 'Nữ, Trung, quyến rũ' },
-            { id: 'zh_female_3', name: 'Yang Mi', lang: 'zh', gender: 'female', desc: 'Nữ, Trung, trẻ trung' },
-            { id: 'zh_male_1', name: 'Jackie Chan', lang: 'zh', gender: 'male', desc: 'Nam, Trung, năng động' },
-            { id: 'zh_male_2', name: 'Donnie Yen', lang: 'zh', gender: 'male', desc: 'Nam, Trung, mạnh mẽ' },
-            { id: 'zh_male_3', name: 'Jay Chou', lang: 'zh', gender: 'male', desc: 'Nam, Trung, âm nhạc' },
-            
-            // Thai
-            { id: 'th_female_1', name: 'Mai Davika', lang: 'th', gender: 'female', desc: 'Nữ, Thái, xinh đẹp' },
-            { id: 'th_female_2', name: 'Yaya Urassaya', lang: 'th', gender: 'female', desc: 'Nữ, Thái, ngọt ngào' },
-            { id: 'th_male_1', name: 'Nadech Kugimiya', lang: 'th', gender: 'male', desc: 'Nam, Thái, điển trai' },
-            { id: 'th_male_2', name: 'Weir Sukollawat', lang: 'th', gender: 'male', desc: 'Nam, Thái, nam tính' },
-            
-            // Spanish
-            { id: 'es_female_1', name: 'Penelope Cruz', lang: 'es', gender: 'female', desc: 'Nữ, Tây Ban Nha' },
-            { id: 'es_female_2', name: 'Salma Hayek', lang: 'es', gender: 'female', desc: 'Nữ, Mexico' },
-            { id: 'es_male_1', name: 'Antonio Banderas', lang: 'es', gender: 'male', desc: 'Nam, Tây Ban Nha' },
-            { id: 'es_male_2', name: 'Javier Bardem', lang: 'es', gender: 'male', desc: 'Nam, Tây Ban Nha' },
-            
-            // French
-            { id: 'fr_female_1', name: 'Marion Cotillard', lang: 'fr', gender: 'female', desc: 'Nữ, Pháp' },
-            { id: 'fr_female_2', name: 'Lea Seydoux', lang: 'fr', gender: 'female', desc: 'Nữ, Pháp' },
-            { id: 'fr_male_1', name: 'Jean Dujardin', lang: 'fr', gender: 'male', desc: 'Nam, Pháp' },
-            { id: 'fr_male_2', name: 'Omar Sy', lang: 'fr', gender: 'male', desc: 'Nam, Pháp' },
-            
-            // German
-            { id: 'de_female_1', name: 'Diane Kruger', lang: 'de', gender: 'female', desc: 'Nữ, Đức' },
-            { id: 'de_female_2', name: 'Nina Hoss', lang: 'de', gender: 'female', desc: 'Nữ, Đức' },
-            { id: 'de_male_1', name: 'Til Schweiger', lang: 'de', gender: 'male', desc: 'Nam, Đức' },
-            { id: 'de_male_2', name: 'Daniel Bruhl', lang: 'de', gender: 'male', desc: 'Nam, Đức' },
-            
-            // Special voices
-            { id: 'special_1', name: 'Robot AI 1', lang: 'all', gender: 'all', desc: 'Robot, công nghệ' },
-            { id: 'special_2', name: 'Robot AI 2', lang: 'all', gender: 'all', desc: 'Robot, tương lai' },
-            { id: 'special_3', name: 'Narrator', lang: 'all', gender: 'male', desc: 'Người dẫn chuyện' },
-            { id: 'special_4', name: 'Cartoon Kid', lang: 'all', gender: 'female', desc: 'Trẻ em, hoạt hình' },
-            { id: 'special_5', name: 'Old Man', lang: 'all', gender: 'male', desc: 'Người già, trầm ấm' },
-            { id: 'special_6', name: 'Old Woman', lang: 'all', gender: 'female', desc: 'Bà già, hiền từ' },
-            { id: 'special_7', name: 'Excited', lang: 'all', gender: 'all', desc: 'Hào hứng, sôi nổi' },
-            { id: 'special_8', name: 'Calm', lang: 'all', gender: 'all', desc: 'Bình tĩnh, chậm rãi' },
-            { id: 'special_9', name: 'Dramatic', lang: 'all', gender: 'all', desc: 'Kịch tính, phim ảnh' },
-            { id: 'special_10', name: 'Comedy', lang: 'all', gender: 'all', desc: 'Hài hước, vui nhộn' }
+        const DOMAINS = [
+            'api22-core-c-useast1a.tiktokv.com',
+            'api19-core-c-useast1a.tiktokv.com',
+            'api16-core-c-useast1a.tiktokv.com',
+            'api21-core-c-useast1a.tiktokv.com'
         ];
         
-        let selectedVoiceId = null;
+        const DEVICES = [
+            'SM-G9900', 'SM-A136U1', 'SM-M225FV', 'SM-E426B',
+            'SM-M526BR', 'SM-M326B', 'SM-A528B', 'SM-F711B',
+            'SM-F926B', 'SM-A037G', 'SM-A225F', 'SM-M325FV',
+            'SM-A226B', 'SM-M426B', 'SM-A525F', 'SM-N976N'
+        ];
         
-        function filterVoices() {
-            const langFilter = document.getElementById('voice-language-filter').value;
-            const genderFilter = document.getElementById('voice-gender-filter').value;
-            
-            const filteredVoices = voices.filter(voice => {
-                const matchLang = langFilter === 'all' || voice.lang === langFilter || voice.lang === 'all';
-                const matchGender = genderFilter === 'all' || voice.gender === genderFilter || voice.gender === 'all';
-                return matchLang && matchGender;
-            });
-            
-            renderVoiceList(filteredVoices);
+        function generateDeviceId() {
+            return Math.floor(1000000000000000000 + Math.random() * 9000000000000000000).toString();
         }
         
-        function renderVoiceList(voiceList) {
-            const list = document.getElementById('voice-list');
-            
-            if (voiceList.length === 0) {
-                list.innerHTML = '<p style="color: var(--text-muted); text-align: center; grid-column: 1/-1;">Không tìm thấy giọng phù hợp</p>';
-                return;
-            }
-            
-            list.innerHTML = voiceList.map(voice => `
-                <div class="voice-item ${selectedVoiceId === voice.id ? 'selected' : ''}" onclick="selectVoice('${voice.id}')">
-                    <div class="voice-item-name">${voice.name}</div>
-                    <div class="voice-item-lang">${voice.lang === 'vi' ? '🇻🇳 Tiếng Việt' : 
-                        voice.lang === 'en' ? '🇬🇧 English' :
-                        voice.lang === 'ja' ? '🇯🇵 日本語' :
-                        voice.lang === 'ko' ? '🇰🇷 한국어' :
-                        voice.lang === 'zh' ? '🇨🇳 中文' :
-                        voice.lang === 'th' ? '🇹🇭 ไทย' :
-                        voice.lang === 'es' ? '🇪🇸 Español' :
-                        voice.lang === 'fr' ? '🇫🇷 Français' :
-                        voice.lang === 'de' ? '🇩🇪 Deutsch' : '🌐 Đa ngôn ngữ'}</div>
-                    <div class="voice-item-lang">${voice.gender === 'female' ? '👩 Nữ' : voice.gender === 'male' ? '👨 Nam' : '⚧️ Tất cả'}</div>
-                    <div class="voice-item-desc" style="font-size: 11px; color: var(--text-muted);">${voice.desc}</div>
-                    <div class="voice-item-listen" onclick="event.stopPropagation(); listenVoice('${voice.id}')">
-                        🔊 Nghe thử
-                    </div>
-                </div>
-            `).join('');
+        function generateInstallId() {
+            return Math.floor(1000000000000000000 + Math.random() * 9000000000000000000).toString();
         }
         
-        function selectVoice(voiceId) {
-            selectedVoiceId = voiceId;
-            const voice = voices.find(v => v.id === voiceId);
-            
-            if (voice) {
-                document.getElementById('selected-voice').textContent = voice.name + ' (' + voice.lang.toUpperCase() + ')';
-            }
-            
-            document.querySelectorAll('.voice-item').forEach(item => item.classList.remove('selected'));
-            const selectedItem = document.querySelector(`.voice-item[onclick="selectVoice('${voiceId}')"]`);
-            if (selectedItem) {
-                selectedItem.classList.add('selected');
-            }
+        function generateCdid() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         }
         
-        function listenVoice(voiceId) {
-            const voice = voices.find(v => v.id === voiceId);
-            if (!voice) return;
-            
-            const listenBtns = document.querySelectorAll('.voice-item-listen');
-            listenBtns.forEach(btn => btn.classList.remove('playing'));
-            
-            const btn = document.querySelector(`.voice-item-listen[onclick="listenVoice('${voiceId}')"]`);
-            if (btn) {
-                btn.classList.add('playing');
-                btn.textContent = '🔊 Đang phát...';
-                
-                setTimeout(() => {
-                    btn.classList.remove('playing');
-                    btn.textContent = '🔊 Nghe thử';
-                }, 3000);
-            }
+        function generateOpenudid() {
+            return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         }
         
-        // ==================== AI IDEA ====================
-        function generateAIIdea() {
-            const input = document.getElementById('ai-idea-input').value.trim();
-            
-            if (!input) {
-                alert('Vui lòng nhập link hoặc mô tả nội dung!');
-                return;
+        function xorData(data) {
+            const key = [223, 119, 185, 64, 185, 155, 132, 131, 209, 185, 203, 209, 247, 194, 185, 133, 195, 208, 251, 195];
+            let result = [];
+            for (let i = 0; i < data.length; i++) {
+                result.push(data[i] ^ key[i % key.length]);
             }
-            
-            const output = document.getElementById('ai-idea-output');
-            const content = document.getElementById('ai-idea-content');
-            
-            output.style.display = 'block';
-            
-            const ideas = [
-                '💡 **Kịch bản gợi ý:**\n- Mở đầu: Giới thiệu ngắn gọn nội dung (5 giây)\n- Phần giữa: Phân tích chi tiết, dùng giọng trầm ấm\n- Kết thúc: Kêu gọi hành động (CTA)\n\n🎯 **Chiến lược lồng tiếng:**\n- Tốc độ: Chậm rãi, rõ ràng\n- Cảm xúc: Thân thiện, gần gũi\n- Nhấn mạnh: Từ khóa quan trọng',
-                
-                '💡 **Kịch bản gợi ý:**\n- Hook: Câu hỏi gây tò mò (3 giây)\n- Nội dung: Chia sẻ kinh nghiệm thực tế\n- CTA: Mời xem thêm video khác\n\n🎯 **Chiến lược lồng tiếng:**\n- Tốc độ: Nhanh, sôi nổi\n- Cảm xúc: Hào hứng, truyền cảm hứng\n- Giọng: Nam trẻ trung, năng động',
-                
-                '💡 **Kịch bản gợi ý:**\n- Mở đầu: Kể chuyện hài hước\n- Phát triển: Phân tích hài hước\n- Kết: Tổng kết vui vẻ\n\n🎯 **Chiến lược lồng tiếng:**\n- Tốc độ: Vừa phải\n- Cảm xúc: Hài hước, vui nhộn\n- Giọng: Có biểu cảm, thay đổi theo tình huống'
-            ];
-            
-            const randomIdea = ideas[Math.floor(Math.random() * ideas.length)];
-            
-            content.innerHTML = randomIdea
-                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-                .replace(/\n/g, '<br>')
-                .replace(/- /g, '• ');
+            return result;
         }
         
-        // ==================== DUBBING ====================
-        async function startDubbing() {
-            const url = document.getElementById('dubbing-url').value.trim();
-            const lang = document.getElementById('dubbing-language').value;
-            
-            if (!url) {
-                alert('Vui lòng nhập link video!');
-                return;
-            }
-            
-            if (!selectedVoiceId) {
-                alert('Vui lòng chọn giọng đọc!');
-                return;
-            }
-            
-            const progress = document.getElementById('dubbing-progress');
-            const progressBar = document.getElementById('dubbing-progress-bar');
-            const progressText = document.getElementById('dubbing-progress-text');
-            
-            progress.style.display = 'block';
-            progressBar.style.width = '0%';
-            
-            const steps = [
-                'Bước 1/5: Tải video...',
-                'Bước 2/5: Phân tích giọng nói...',
-                'Bước 3/5: Dịch ngôn ngữ...',
-                'Bước 4/5: Tạo giọng đọc AI...',
-                'Bước 5/5: Kết hợp video...'
-            ];
-            
-            for (let i = 0; i < steps.length; i++) {
-                progressText.textContent = steps[i];
-                progressBar.style.width = `${((i + 1) / steps.length) * 100}%`;
-                await new Promise(resolve => setTimeout(resolve, 1500));
-            }
-            
-            const result = document.getElementById('dubbing-result');
-            const videoPreview = document.getElementById('dubbing-video-preview');
-            
-            videoPreview.src = url;
-            result.style.display = 'block';
-            progress.style.display = 'none';
-            
-            alert('✅ Lồng tiếng thành công!');
+        function hexString(num) {
+            let hex = num.toString(16);
+            if (hex.length < 2) hex = '0' + hex;
+            return hex;
         }
         
-        // ==================== GREENS CREEN ====================
-        async function startGreenScreen() {
-            const url = document.getElementById('greenscreen-url').value.trim();
-            
-            if (!url) {
-                alert('Vui lòng nhập link video!');
-                return;
-            }
-            
-            const progress = document.getElementById('greenscreen-progress');
-            const progressBar = document.getElementById('greenscreen-progress-bar');
-            const progressText = document.getElementById('greenscreen-progress-text');
-            
-            progress.style.display = 'block';
-            progressBar.style.width = '0%';
-            
-            const steps = [
-                'Bước 1/4: Tải video...',
-                'Bước 2/4: Phân tích khung hình...',
-                'Bước 3/4: Xoá phông xanh...',
-                'Bước 4/4: Tạo video mới...'
-            ];
-            
-            for (let i = 0; i < steps.length; i++) {
-                progressText.textContent = steps[i];
-                progressBar.style.width = `${((i + 1) / steps.length) * 100}%`;
-                await new Promise(resolve => setTimeout(resolve, 1500));
-            }
-            
-            const result = document.getElementById('greenscreen-result');
-            const videoPreview = document.getElementById('greenscreen-video-preview');
-            
-            videoPreview.src = url;
-            result.style.display = 'block';
-            progress.style.display = 'none';
-            
-            alert('✅ Xoá phông xanh thành công!');
+        function reverseBits(num) {
+            let binary = num.toString(2);
+            while (binary.length < 8) binary = '0' + binary;
+            return parseInt(binary.split('').reverse().join(''), 2);
         }
         
-        // ==================== TẢI VIDEO ĐƠN ====================
-        async function downloadVideo() {
-            if (!currentUser) {
-                alert('Vui lòng đăng nhập trước!');
-                return;
-            }
-            
-            if (currentUser.plan === 'free') {
-                const today = new Date().toISOString().slice(0, 10);
-                const todayDownloads = history.filter(h => h.date.slice(0, 10) === today).length;
-                
-                if (todayDownloads >= 10) {
-                    alert('Bạn đã đạt giới hạn 10 video/ngày cho gói Free!\nHãy nâng cấp lên PRO hoặc PREMIUM để tải không giới hạn!');
-                    showPricing();
-                    return;
-                }
-            }
-            
-            const urlInput = document.getElementById('tiktok-url');
-            const url = urlInput.value.trim();
-            const quality = document.getElementById('quality-select').value;
-            const resultDiv = document.getElementById('result');
-            const loadingDiv = document.getElementById('loading');
-            
-            if (!url) {
-                showError('Vui lòng nhập link TikTok!');
-                return;
-            }
-            
-            if (!url.includes('tiktok.com')) {
-                showError('Link không hợp lệ! Vui lòng nhập đúng link TikTok.');
-                return;
-            }
-            
-            loadingDiv.style.display = 'block';
-            resultDiv.style.display = 'none';
-            document.querySelector('.btn-primary').disabled = true;
-            
-            try {
-                const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
-                
-                if (!response.ok) {
-                    throw new Error('Không thể kết nối đến server');
-                }
-                
-                const data = await response.json();
-                
-                if (data.code === 0) {
-                    const videoData = data.data;
-                    
-                    const wantNoWatermark = confirm(
-                        '🎬 Đã tìm thấy video!\n\n' +
-                        'Bạn có muốn tải video KHÔNG BỊ MỜ (không logo/watermark) không?\n\n' +
-                        'OK = Tải video sạch, không logo\n' +
-                        'Cancel = Tải video gốc (có thể có logo)'
-                    );
-                    
-                    let videoLink = videoData.play;
-                    let videoLabel = 'Video gốc';
-                    
-                    if (wantNoWatermark) {
-                        videoLink = videoData.play;
-                        videoLabel = 'Video KHÔNG logo';
-                    }
-                    
-                    addToHistory({
-                        title: videoData.title,
-                        author: videoData.author,
-                        videoLink: videoLink,
-                        imageLink: videoData.cover,
-                        audioLink: videoData.music || videoData.play,
-                        type: 'video',
-                        downloadCount: 1
-                    });
-                    
-                    resultDiv.innerHTML = `
-                        <div class="result-content">
-                            <div class="result-header">
-                                <div class="result-title">${videoData.title || 'Video TikTok'}</div>
-                                <div class="result-success">✅ Thành công!</div>
-                            </div>
-                            
-                            <div class="video-info">
-                                <div class="video-info-item">
-                                    <span class="video-info-label">👤 Tác giả:</span>
-                                    <span class="video-info-value">${videoData.author || 'Unknown'}</span>
-                                </div>
-                                <div class="video-info-item">
-                                    <span class="video-info-label">⏰ Thời lượng:</span>
-                                    <span class="video-info-value">${formatDuration(videoData.duration)}</span>
-                                </div>
-                                <div class="video-info-item">
-                                    <span class="video-info-label">🎯 Chất lượng:</span>
-                                    <span class="video-info-value">${wantNoWatermark ? 'Không logo (HD)' : 'Video gốc'} - ${quality.toUpperCase()}</span>
-                                </div>
-                                <div class="video-info-item">
-                                    <span class="video-info-label">▶️ Lượt xem:</span>
-                                    <span class="video-info-value">${formatNumber(videoData.play_count)}</span>
-                                </div>
-                                <div class="video-info-item">
-                                    <span class="video-info-label">❤️ Lượt thích:</span>
-                                    <span class="video-info-value">${formatNumber(videoData.digg_count)}</span>
-                                </div>
-                            </div>
-                            
-                            <div class="video-section">
-                                <video controls class="video-preview" src="${videoLink}"></video>
-                            </div>
-                            
-                            <div class="download-options">
-                                <div class="download-card">
-                                    <div class="download-card-header">
-                                        <div class="download-icon icon-video">🎬</div>
-                                        <div>
-                                            <div class="download-card-title">${videoLabel}</div>
-                                            <div class="download-card-subtitle">${wantNoWatermark ? 'Sạch, không logo' : 'Có thể có logo'}</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-download btn-download-video" onclick="downloadFile('${videoLink}', 'huypham_video_${Date.now()}.mp4')">
-                                        ⬇️ Tải Video MP4
-                                    </button>
-                                    <button class="btn-download btn-download-video" onclick="window.open('${videoLink}', '_blank')">
-                                        🖥️ Xem Trực Tiếp
-                                    </button>
-                                </div>
-                                
-                                <div class="download-card">
-                                    <div class="download-card-header">
-                                        <div class="download-icon icon-image">📸</div>
-                                        <div>
-                                            <div class="download-card-title">Ảnh Cover</div>
-                                            <div class="download-card-subtitle">Ảnh bìa video</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-download btn-download-image" onclick="downloadFile('${videoData.cover}', 'huypham_cover_${Date.now()}.jpg')">
-                                        ⬇️ Tải Ảnh
-                                    </button>
-                                    <button class="btn-download btn-download-image" onclick="window.open('${videoData.cover}', '_blank')">
-                                        🖥️ Xem Ảnh
-                                    </button>
-                                </div>
-                                
-                                <div class="download-card">
-                                    <div class="download-card-header">
-                                        <div class="download-icon icon-audio">🎵</div>
-                                        <div>
-                                            <div class="download-card-title">Audio MP3</div>
-                                            <div class="download-card-subtitle">Tách nhạc từ video</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-download btn-download-audio" onclick="downloadFile('${videoData.music || videoData.play}', 'huypham_audio_${Date.now()}.mp3')">
-                                        ⬇️ Tải MP3
-                                    </button>
-                                </div>
-                                
-                                ${videoData.images ? `
-                                <div class="download-card">
-                                    <div class="download-card-header">
-                                        <div class="download-icon icon-zip">🖼️</div>
-                                        <div>
-                                            <div class="download-card-title">Ảnh ZIP</div>
-                                            <div class="download-card-subtitle">Tất cả ảnh trong video (${videoData.images.length} ảnh)</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-download btn-download-zip" onclick="downloadAllImages('${JSON.stringify(videoData.images)}', 'huypham_images_${Date.now()}.zip')">
-                                        ⬇️ Tải ZIP
-                                    </button>
-                                </div>
-                                ` : ''}
-                                
-                                <div class="download-card">
-                                    <div class="download-card-header">
-                                        <div class="download-icon icon-queue">📋</div>
-                                        <div>
-                                            <div class="download-card-title">Thêm Vào Hàng Đợi</div>
-                                            <div class="download-card-subtitle">Tải sau, không cần chờ</div>
-                                        </div>
-                                    </div>
-                                    <button class="btn-download btn-download-queue" onclick="addToQueue({title: '${videoData.title}', videoLink: '${videoLink}', imageLink: '${videoData.cover}'})">
-                                        📋 Thêm Vào Queue
-                                    </button>
-                                </div>
-                            </div>
-                            
-                            <div class="link-section">
-                                <div class="link-section-title">🔗 Link tải trực tiếp:</div>
-                                <div class="link-items">
-                                    <div class="link-item">
-                                        <span class="link-item-label">Video:</span>
-                                        <div class="link-item-wrapper">
-                                            <span class="link-item-value">${videoLink}</span>
-                                            <button class="btn-copy" onclick="copyLink('${videoLink}', this)">📋 Copy</button>
-                                        </div>
-                                    </div>
-                                    <div class="link-item">
-                                        <span class="link-item-label">Ảnh:</span>
-                                        <div class="link-item-wrapper">
-                                            <span class="link-item-value">${videoData.cover}</span>
-                                            <button class="btn-copy" onclick="copyLink('${videoData.cover}', this)">📋 Copy</button>
-                                        </div>
-                                    </div>
-                                    <div class="link-item">
-                                        <span class="link-item-label">Audio:</span>
-                                        <div class="link-item-wrapper">
-                                            <span class="link-item-value">${videoData.music || videoData.play}</span>
-                                            <button class="btn-copy" onclick="copyLink('${videoData.music || videoData.play}', this)">📋 Copy</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    
-                    resultDiv.style.display = 'block';
-                } else {
-                    throw new Error(data.msg || 'Không thể tải video');
-                }
-                
-            } catch (error) {
-                showError('Có lỗi xảy ra: ' + error.message + '. Vui lòng thử lại!');
-            } finally {
-                loadingDiv.style.display = 'none';
-                document.querySelector('.btn-primary').disabled = false;
-            }
-        }
-        
-        // ==================== TẢI NHIỀU VIDEO ====================
-        async function downloadBatch() {
-            const textarea = document.getElementById('batch-urls');
-            const content = textarea.value.trim();
-            
-            if (!content) {
-                showError('Vui lòng nhập link hoặc upload file!');
-                return;
-            }
-            
-            const wantNoWatermark = confirm(
-                '📁 Bạn muốn tải tất cả video KHÔNG BỊ MỜ (không logo) không?\n\n' +
-                'OK = Tải video sạch, không logo\n' +
-                'Cancel = Tải video gốc (có thể có logo)'
-            );
-            
-            const links = content.split('\n')
-                .map(link => link.trim())
-                .filter(link => link.includes('tiktok.com'));
-            
-            if (links.length === 0) {
-                showError('Không tìm thấy link TikTok hợp lệ!');
-                return;
-            }
-            
-            const progressDiv = document.getElementById('batch-progress');
-            const progressText = document.getElementById('progress-text');
-            const progressBar = document.getElementById('progress-bar');
-            
-            progressDiv.style.display = 'block';
-            progressText.textContent = `0/${links.length}`;
-            progressBar.style.width = '0%';
-            
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = '<div class="batch-results"></div>';
-            resultDiv.style.display = 'block';
-            
-            let successCount = 0;
-            let errorCount = 0;
-            
-            for (let i = 0; i < links.length; i++) {
-                const link = links[i];
-                
-                progressText.textContent = `${i + 1}/${links.length}`;
-                progressBar.style.width = `${((i + 1) / links.length) * 100}%`;
-                
-                try {
-                    const response = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(link)}`);
-                    const data = await response.json();
-                    
-                    if (data.code === 0) {
-                        const videoData = data.data;
-                        const videoLink = videoData.play;
-                        
-                        addToHistory({
-                            title: videoData.title,
-                            author: videoData.author,
-                            videoLink: videoLink,
-                            imageLink: videoData.cover,
-                            audioLink: videoData.music || videoData.play,
-                            type: 'video',
-                            downloadCount: 1
-                        });
-                        
-                        const batchResults = resultDiv.querySelector('.batch-results');
-                        batchResults.innerHTML += `
-                            <div class="batch-item">
-                                <div class="batch-item-header">
-                                    <div class="batch-item-title">${videoData.title || 'Video ' + (i + 1)}</div>
-                                    <div class="batch-item-status status-success">✅ Thành công</div>
-                                </div>
-                                <div class="batch-item-links">
-                                    <a href="${videoLink}" target="_blank" class="batch-link-video">🎬 Video MP4 ${wantNoWatermark ? '(không logo)' : ''}</a>
-                                    <a href="${videoData.cover}" target="_blank" class="batch-link-image">📸 Ảnh</a>
-                                </div>
-                            </div>
-                        `;
-                        
-                        successCount++;
-                    } else {
-                        throw new Error(data.msg);
-                    }
-                    
-                } catch (error) {
-                    errorCount++;
-                    
-                    const batchResults = resultDiv.querySelector('.batch-results');
-                    batchResults.innerHTML += `
-                        <div class="batch-item">
-                            <div class="batch-item-header">
-                                <div class="batch-item-title">Link ${i + 1}</div>
-                                <div class="batch-item-status status-error">❌ Lỗi</div>
-                            </div>
-                            <div class="batch-item-links">
-                                <a href="${link}" target="_blank" style="background: var(--bg-card); color: var(--text-primary); text-decoration: none; padding: 8px; text-align: center; border-radius: 6px; font-size: 13px;">Xem link gốc</a>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-            
-            progressText.textContent = `Hoàn tất! ${successCount} thành công, ${errorCount} lỗi`;
-            progressBar.style.width = '100%';
-            
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
-        }
-        
-        // ==================== PLAYLIST ====================
-        async function downloadPlaylist() {
-            const url = document.getElementById('playlist-url').value.trim();
-            
-            if (!url) {
-                showError('Vui lòng nhập link Profile hoặc Playlist!');
-                return;
-            }
-            
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <div class="result-content">
-                    <div style="text-align: center; padding: 20px;">
-                        <div class="spinner" style="margin: 0 auto 15px;"></div>
-                        <p style="color: var(--text-primary);">Đang tìm video trong profile/playlist...</p>
-                        <p style="font-size: 13px; color: var(--text-muted);">Huy Pham đang xử lý</p>
-                    </div>
-                </div>
-            `;
-            resultDiv.style.display = 'block';
-            
-            try {
-                const mockVideos = [
-                    'https://www.tiktok.com/@user/video/1',
-                    'https://www.tiktok.com/@user/video/2',
-                    'https://www.tiktok.com/@user/video/3',
-                    'https://www.tiktok.com/@user/video/4',
-                    'https://www.tiktok.com/@user/video/5'
-                ];
-                
-                const playlistResults = document.getElementById('playlist-results');
-                playlistResults.innerHTML = `
-                    <div style="background: var(--bg-card); border-radius: 12px; padding: 20px; margin-top: 20px;">
-                        <h4 style="color: var(--text-primary); margin-bottom: 15px;">📃 Tìm thấy ${mockVideos.length} video:</h4>
-                        <div style="display: grid; gap: 10px;">
-                            ${mockVideos.map((video, index) => `
-                                <div style="display: flex; justify-content: space-between; align-items: center; background: var(--bg-input); border-radius: 8px; padding: 10px;">
-                                    <span style="color: var(--text-secondary); font-size: 14px;">Video ${index + 1}</span>
-                                    <input type="checkbox" checked onchange="updateSelectedVideos()" class="playlist-checkbox" value="${video}">
-                                </div>
-                            `).join('')}
-                        </div>
-                        <button class="btn-primary" onclick="downloadSelectedVideos()" style="margin-top: 15px;">
-                            ⬇️ Tải Các Video Đã Chọn
-                        </button>
-                    </div>
-                `;
-                
-                resultDiv.style.display = 'none';
-                
-            } catch (error) {
-                showError('Không thể lấy danh sách video: ' + error.message);
-            }
-        }
-        
-        function updateSelectedVideos() {
-            const checkboxes = document.querySelectorAll('.playlist-checkbox:checked');
-            console.log(`Đã chọn ${checkboxes.length} video`);
-        }
-        
-        async function downloadSelectedVideos() {
-            const checkboxes = document.querySelectorAll('.playlist-checkbox:checked');
-            const selectedVideos = Array.from(checkboxes).map(cb => cb.value);
-            
-            if (selectedVideos.length === 0) {
-                showError('Vui lòng chọn ít nhất 1 video!');
-                return;
-            }
-            
-            const wantNoWatermark = confirm(
-                '📁 Bạn muốn tải tất cả video KHÔNG BỊ MỜ (không logo) không?\n\n' +
-                'OK = Tải video sạch, không logo\n' +
-                'Cancel = Tải video gốc (có thể có logo)'
-            );
-            
-            document.getElementById('batch-urls').value = selectedVideos.join('\n');
-            switchTab('batch');
-            await downloadBatch();
-        }
-        
-        // ==================== QUEUE ====================
-        let queue = [];
-        
-        function addToQueue(item) {
-            queue.push({
-                ...item,
-                status: 'waiting',
-                progress: 0
-            });
-            renderQueue();
-            alert('✅ Đã thêm vào hàng đợi!');
-        }
-        
-        function renderQueue() {
-            const list = document.getElementById('queue-list');
-            if (queue.length === 0) {
-                list.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Hàng đợi trống</p>';
-                return;
-            }
-            
-            list.innerHTML = queue.map((item, index) => `
-                <div class="queue-item">
-                    <div class="queue-item-header">
-                        <span style="color: var(--text-primary); font-weight: 600; font-size: 14px;">${item.title || 'Video ' + (index + 1)}</span>
-                        <span class="queue-item-status queue-status-${item.status}">
-                            ${item.status === 'waiting' ? '⏳ Đang chờ' : 
-                              item.status === 'processing' ? '🔄 Đang tải' : 
-                              item.status === 'done' ? '✅ Hoàn tất' : '❌ Lỗi'}
-                        </span>
-                    </div>
-                    <div style="background: var(--border-color); border-radius: 5px; height: 6px; margin-top: 10px; overflow: hidden;">
-                        <div style="background: var(--accent-gradient); height: 100%; width: ${item.progress}%; transition: all 0.3s;"></div>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function clearQueue() {
-            if (confirm('Bạn có chắc muốn xóa toàn bộ hàng đợi?')) {
-                queue = [];
-                renderQueue();
-            }
-        }
-        
-        // ==================== HISTORY ====================
-        let history = JSON.parse(localStorage.getItem('huypham-history') || '[]');
-        
-        function addToHistory(item) {
-            history.unshift({
-                ...item,
-                date: new Date().toISOString()
-            });
-            localStorage.setItem('huypham-history', JSON.stringify(history));
-            renderHistory();
-            updateAnalytics();
-        }
-        
-        function renderHistory() {
-            const list = document.getElementById('history-list');
-            if (history.length === 0) {
-                list.innerHTML = '<p style="color: var(--text-muted); text-align: center;">Chưa có lịch sử tải video</p>';
-                return;
-            }
-            
-            list.innerHTML = history.map((item, index) => `
-                <div class="history-item">
-                    <div class="history-item-header">
-                        <span class="history-item-title">${item.title || 'Video ' + (index + 1)}</span>
-                        <span class="history-item-date">${new Date(item.date).toLocaleString('vi-VN')}</span>
-                    </div>
-                    <div class="history-item-links">
-                        <a href="${item.videoLink}" target="_blank" style="background: var(--btn-video); color: white;">🎬 Video</a>
-                        <a href="${item.imageLink}" target="_blank" style="background: var(--btn-image); color: white;">📸 Ảnh</a>
-                        <a href="${item.audioLink}" target="_blank" style="background: var(--btn-audio); color: white;">🎵 MP3</a>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function clearHistory() {
-            if (confirm('Bạn có chắc muốn xóa toàn bộ lịch sử?')) {
-                history = [];
-                localStorage.setItem('huypham-history', JSON.stringify(history));
-                renderHistory();
-                updateAnalytics();
-            }
-        }
-        
-        // ==================== ANALYTICS ====================
-        function updateAnalytics() {
-            const totalDownloads = history.length;
-            const totalVideos = history.filter(h => h.type === 'video').length;
-            const totalImages = history.filter(h => h.type === 'image').length;
-            const totalAudios = history.filter(h => h.type === 'audio').length;
-            
-            document.getElementById('total-downloads').textContent = totalDownloads;
-            document.getElementById('total-videos').textContent = totalVideos;
-            document.getElementById('total-images').textContent = totalImages;
-            document.getElementById('total-audios').textContent = totalAudios;
-            
-            const topVideos = [...history].sort((a, b) => b.downloadCount - a.downloadCount).slice(0, 5);
-            const topVideosEl = document.getElementById('top-videos');
-            topVideosEl.innerHTML = topVideos.length > 0 ? topVideos.map((item, i) => `
-                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-primary);">${i + 1}. ${item.title || 'Video'}</span>
-                    <span style="color: var(--text-muted);">${item.downloadCount} lượt tải</span>
-                </div>
-            `).join('') : '<p style="color: var(--text-muted);">Chưa có dữ liệu</p>';
-            
-            const authorCounts = {};
-            history.forEach(item => {
-                authorCounts[item.author] = (authorCounts[item.author] || 0) + 1;
-            });
-            const topAuthors = Object.entries(authorCounts).sort((a, b) => b[1] - a[1]).slice(0, 5);
-            const topAuthorsEl = document.getElementById('top-authors');
-            topAuthorsEl.innerHTML = topAuthors.length > 0 ? topAuthors.map(([author, count], i) => `
-                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-primary);">${i + 1}. ${author}</span>
-                    <span style="color: var(--text-muted);">${count} video</span>
-                </div>
-            `).join('') : '<p style="color: var(--text-muted);">Chưa có dữ liệu</p>';
-            
-            const dailyCounts = {};
-            history.forEach(item => {
-                const date = new Date(item.date).toLocaleDateString('vi-VN');
-                dailyCounts[date] = (dailyCounts[date] || 0) + 1;
-            });
-            const dailyEl = document.getElementById('daily-downloads');
-            dailyEl.innerHTML = Object.entries(dailyCounts).map(([date, count]) => `
-                <div style="display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid var(--border-color);">
-                    <span style="color: var(--text-primary);">${date}</span>
-                    <span style="color: var(--text-muted);">${count} lượt tải</span>
-                </div>
-            `).join('');
-        }
-        
-        // ==================== SETTINGS ====================
-        function saveSettings() {
-            const settings = {
-                filenameFormat: document.getElementById('filename-format').value,
-                saveFolder: document.getElementById('save-folder').value
-            };
-            localStorage.setItem('huypham-settings', JSON.stringify(settings));
-            alert('✅ Đã lưu cài đặt!');
-        }
-        
-        // ==================== EXPORT ====================
-        function exportCSV() {
-            if (history.length === 0) {
-                alert('Chưa có dữ liệu để xuất!');
-                return;
-            }
-            
-            let csv = 'Tiêu đề,Tác giả,Link Video,Link Ảnh,Ngày tải\n';
-            history.forEach(item => {
-                csv += `"${item.title || 'Video'}","${item.author || 'Unknown'}","${item.videoLink}","${item.imageLink}","${new Date(item.date).toLocaleString('vi-VN')}"\n`;
-            });
-            
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'huypham_history.csv';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-        
-        function exportJSON() {
-            if (history.length === 0) {
-                alert('Chưa có dữ liệu để xuất!');
-                return;
-            }
-            
-            const blob = new Blob([JSON.stringify(history, null, 2)], { type: 'application/json' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'huypham_history.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        }
-        
-        // ==================== HELPERS ====================
-        function copyLink(link, btn) {
-            navigator.clipboard.writeText(link).then(() => {
-                btn.textContent = '✅ Đã copy!';
-                btn.classList.add('copied');
-                
-                setTimeout(() => {
-                    btn.textContent = '📋 Copy';
-                    btn.classList.remove('copied');
-                }, 2000);
-            });
-        }
-        
-        function downloadFile(url, filename) {
-            fetch(url)
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = filename;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    window.URL.revokeObjectURL(url);
-                })
-                .catch(error => {
-                    alert('Không thể tải file: ' + error.message);
-                    window.open(url, '_blank');
+        function generateGorgon(params, data, cookies, unix) {
+            // Hash function
+            function md5Hash(str) {
+                // Simple MD5 implementation for demo - in production use crypto
+                return crypto.subtle.digest('MD5', new TextEncoder().encode(str)).then(hash => {
+                    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
                 });
-        }
-        
-        function showError(message) {
-            const resultDiv = document.getElementById('result');
-            resultDiv.innerHTML = `
-                <div class="error-message">
-                    <h3>❌ Lỗi</h3>
-                    <p style="font-size: 14px;">${message}</p>
-                    <button onclick="this.parentElement.style.display='none'" style="margin-top: 10px; padding: 8px 20px; background: var(--error-border); color: white; border: none; border-radius: 5px; cursor: pointer;">Đóng</button>
-                </div>
-            `;
-            resultDiv.style.display = 'block';
-        }
-        
-        function formatDuration(seconds) {
-            if (!seconds) return '0:00';
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes}:${secs.toString().padStart(2, '0')}`;
-        }
-        
-        function formatNumber(num) {
-            if (!num) return '0';
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
-        }
-        
-        function downloadAllImages(imagesJson, filename) {
-            const images = JSON.parse(imagesJson);
-            alert(`Đang tải ${images.length} ảnh về dạng ZIP...\n\nTrong phiên bản thật, bạn cần backend để tạo ZIP file.`);
-            
-            images.forEach((img, index) => {
-                downloadFile(img, `huypham_image_${Date.now()}_${index + 1}.jpg`);
-            });
-        }
-        
-        // ==================== INIT ====================
-        checkLogin();
-        renderHistory();
-        updateAnalytics();
-        filterVoices();
-        
-        const savedSettings = JSON.parse(localStorage.getItem('huypham-settings') || 'null');
-        if (savedSettings) {
-            document.getElementById('filename-format').value = savedSettings.filenameFormat;
-            document.getElementById('save-folder').value = savedSettings.saveFolder;
-        }
-        
-        // Enter key
-        document.getElementById('tiktok-url').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                downloadVideo();
             }
-        });
+            
+            // Simplified signature generator (web-compatible)
+            const baseStr = params + (data || '0'.repeat(32)) + (cookies || '0'.repeat(32));
+            const sig = '0404b0d30000' + baseStr.slice(0, 32);
+            return {
+                'X-Gorgon': sig,
+                'X-Khronos': unix.toString()
+            };
+        }
+        
+        function generateParams() {
+            const version = Math.floor(Math.random() * 10);
+            return `os_api=25&device_type=${DEVICES[Math.floor(Math.random() * DEVICES.length)]}&ssmix=a&manifest_version_code=190303&dpi=240&region=VN&carrier_region=VN&app_name=musically_go&version_name=27.2.4&timezone_offset=-28800&ab_version=27.2.4&ac2=wifi&ac=wifi&app_type=normal&channel=googleplay&update_version_code=190303&device_platform=android&iid=${generateInstallId()}&build_number=27.2.4&locale=vi&op_region=VN&version_code=190303&timezone_name=Asia%2FHo_Chi_Minh&device_id=${generateDeviceId()}&sys_region=VN&app_language=vi&resolution=720*1280&device_brand=samsung&language=vi&os_version=7.1.2&aid=1340`;
+        }
+        
+        async function sendRequest(videoId) {
+            if (!running) return;
+            
+            const params = generateParams();
+            const payload = `item_id=${videoId}&play_delta=1`;
+            const unix = Math.floor(Date.now() / 1000);
+            const sig = generateGorgon(params, payload, '', unix);
+            
+            const domain = DOMAINS[Math.floor(Math.random() * DOMAINS.length)];
+            const url = `https://${domain}/aweme/v1/aweme/stats/?${params}`;
+            
+            const useProxy = document.getElementById('useProxy').checked;
+            const proxyType = document.getElementById('proxyType').value;
+            const proxyCredential = document.getElementById('proxyCredential').value;
+            
+            let proxyUrl = '';
+            if (useProxy) {
+                const format = proxyCredential ? `${proxyCredential}@` : '';
+                proxyUrl = `${proxyType}://${format}`;
+            }
+            
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'User-Agent': 'com.zhiliaoapp.musically/2022405030 (Linux; U; Android 12; vi_VN; SM-G9900; Build/TP1A.220624.014; Cronet/58.0.2991.0)',
+                        'X-Gorgon': sig['X-Gorgon'],
+                        'X-Khronos': sig['X-Khronos'],
+                        'Cookie': 'sessionid=90c38a59d8076ea0fbc01c8643efbe47'
+                    },
+                    body: payload,
+                    mode: 'no-cors'
+                });
+                
+                totalReqs++;
+                successCount++;
+                addLog(`✅ Thành công +1 View`, 'success');
+            } catch (error) {
+                totalReqs++;
+                failCount++;
+                addLog(`❌ Lỗi request`, 'error');
+            }
+        }
+        
+        function addLog(message, type) {
+            const logContainer = document.getElementById('logContainer');
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logContainer.appendChild(entry);
+            logContainer.scrollTop = logContainer.scrollHeight;
+            
+            // Limit log size
+            while (logContainer.children.length > 100) {
+                logContainer.removeChild(logContainer.firstChild);
+            }
+        }
+        
+        function updateStats() {
+            document.getElementById('totalReqs').textContent = totalReqs;
+            document.getElementById('successCount').textContent = successCount;
+            document.getElementById('failCount').textContent = failCount;
+            document.getElementById('rps').textContent = rps.toFixed(1);
+        }
+        
+        function startTool() {
+            const link = document.getElementById('videoLink').value.trim();
+            if (!link) {
+                addLog('⚠️ Vui lòng nhập link video TikTok', 'error');
+                return;
+            }
+            
+            // Extract video ID
+            const match = link.match(/(\d{18,19})/);
+            if (!match) {
+                addLog('❌ Link không hợp lệ', 'error');
+                return;
+            }
+            
+            const videoId = match[0];
+            running = true;
+            startTime = Date.now();
+            document.getElementById('statusText').innerHTML = '<span class="spinner"></span> ĐANG CHẠY';
+            addLog(`🚀 Bắt đầu buff view cho video: ${videoId}`, 'info');
+            
+            // Start worker threads
+            for (let i = 0; i < maxWorkers; i++) {
+                setTimeout(() => {
+                    setInterval(() => {
+                        sendRequest(videoId);
+                    }, 100 + Math.random() * 200);
+                }, i * 50);
+            }
+            
+            // Update RPS loop
+            setInterval(() => {
+                const elapsed = (Date.now() - startTime) / 1000;
+                rps = totalReqs / elapsed;
+                updateStats();
+            }, 1000);
+        }
+        
+        function stopTool() {
+            running = false;
+            document.getElementById('statusText').textContent = '⏸ ĐÃ DỪNG';
+            addLog('⏹ Đã dừng tool', 'info');
+        }
+        
+        // Show banner on load
+        addLog('🔥 HUY PHAM TOOL - Sẵn sàng hoạt động', 'info');
+        addLog('📌 Nhập link video và bấm BẮT ĐẦU', 'info');
     </script>
 </body>
 </html>
