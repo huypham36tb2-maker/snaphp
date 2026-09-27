@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Huy Pham PRO - Tải Ảnh & Video Đa Nền Tảng</title>
+<title>Huy Pham PRO - Tải Ảnh & Video</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body {
@@ -65,13 +65,27 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     display: none;
 }
 .result.show { display: block; }
-video, img {
+video {
     width: 100%;
     border-radius: 10px;
     margin: 10px 0;
     max-height: 500px;
     background: #000;
+}
+.media-item {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #333;
+}
+.media-item img, .media-item video {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    max-height: 400px;
     object-fit: contain;
+    background: #000;
 }
 .btn-group {
     display: grid;
@@ -117,7 +131,6 @@ video, img {
     color: #aaa;
     line-height: 1.6;
 }
-.warning { border-left-color: #f59e0b; background: #2a1f0a; color: #fcd34d; }
 .platforms {
     display: flex;
     gap: 8px;
@@ -133,46 +146,6 @@ video, img {
     background: #2d2d3d;
     border: 1px solid #444;
 }
-.image-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    gap: 8px;
-    margin: 10px 0;
-}
-.image-grid img {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.2s;
-    margin: 0;
-}
-.image-grid img:hover { transform: scale(1.05); }
-.tabs {
-    display: flex;
-    gap: 5px;
-    margin-bottom: 20px;
-    background: #1a1a2e;
-    padding: 5px;
-    border-radius: 12px;
-    overflow-x: auto;
-}
-.tab {
-    flex: 1;
-    padding: 12px;
-    background: transparent;
-    color: #999;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    font-size: 13px;
-    white-space: nowrap;
-    min-width: 100px;
-}
-.tab.active { background: #8b5cf6; color: #fff; }
-.tab-content { display: none; }
-.tab-content.active { display: block; }
 </style>
 </head>
 <body>
@@ -186,55 +159,21 @@ video, img {
         <span class="platform-chip">📘 Facebook</span>
     </div>
 
-    <div class="tabs">
-        <button class="tab active" onclick="showTab(event, 'download')">🔗 Tải Ảnh/Video</button>
-        <button class="tab" onclick="showTab(event, 'batch')">📁 Nhiều Link</button>
+    <div class="card">
+        <h3>🔗 Dán link (ảnh hoặc video)</h3>
+        <div class="info-box">
+            💡 Dán link Instagram/TikTok/Facebook → Bấm tải → Tất cả ảnh & video sẽ hiện xuống bên dưới.
+        </div>
+        <input type="url" id="url-input" placeholder="https://www.instagram.com/p/... hoặc /reel/...">
+        <button id="btn-download" onclick="downloadMedia()">🚀 Lấy Tất Cả Ảnh & Video</button>
+        <div class="status" id="status-download"></div>
     </div>
 
-    <!-- TAB 1 -->
-    <div class="tab-content active" id="tab-download">
-        <div class="card">
-            <h3>🔗 Dán link (ảnh hoặc video)</h3>
-            <div class="info-box">
-                💡 Hỗ trợ: TikTok, Instagram (Post/Reel/IGTV), Facebook. Dán link → Bấm tải → Nhận link ảnh/video trực tiếp.
-            </div>
-            <input type="url" id="url-input" placeholder="https://www.instagram.com/p/... hoặc /reel/...">
-            <button id="btn-download" onclick="downloadMedia()">🚀 Tải Ngay</button>
-            <div class="status" id="status-download"></div>
-        </div>
-
-        <div class="card result" id="result-download">
-            <div id="platform-badge"></div>
-            <video id="video-preview" controls playsinline style="display:none;"></video>
-            <div id="image-list" class="image-grid"></div>
-            <div id="media-info" class="info-box"></div>
-            <div class="btn-group">
-                <button class="btn-green" onclick="downloadFile(window.currentVideoUrl, 'huypham_video.mp4')">⬇️ Tải Video</button>
-                <button class="btn-blue" onclick="copyLink(window.currentVideoUrl)">📋 Copy Link Video</button>
-            </div>
-            <div class="btn-group" style="margin-top:10px;">
-                <button class="btn-red" onclick="downloadFile(window.currentImageUrl, 'huypham_image.jpg')">⬇️ Tải Ảnh</button>
-                <button class="btn-orange" onclick="copyLink(window.currentImageUrl)">📋 Copy Link Ảnh</button>
-            </div>
-            <div class="btn-group" style="margin-top:10px;">
-                <button class="btn-purple" onclick="downloadAllImages()">🖼️ Tải Tất Cả Ảnh</button>
-                <button class="btn-blue" onclick="openOriginal()">🌐 Mở Link            Gốc</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- TAB 2 -->
-    <div class="tab-content" id="tab-batch">
-        <div class="card">
-            <h3>📁 Nhiều link (mỗi link 1 dòng)</h3>
-            <textarea id="batch-input" rows="8" placeholder="https://www.instagram.com/p/abc/&#10;https://www.tiktok.com/@user/video/123&#10;https://www.facebook.com/..."></textarea>
-            <button id="btn-batch" onclick="downloadBatch()">🚀 Tải Tất Cả</button>
- <div class="status" id="status-batch"></div>
-        </div>
-        <div class="card" id="batch-results" style="display:none;">
-            <h3>📋 Kết quả</h3>
-            <div id="batch-list"></div>
-        </div>
+    <div class="card result" id="result-download">
+        <div id="platform-badge"></div>
+        <div id="media-info" class="info-box"></div>
+        <h3>📥 Danh sách media (${''})</h3>
+        <div id="media-list"></div>
     </div>
 
     <div class="info-box" style="margin-top:20px;text-align:center;font-size:12px;">
@@ -243,21 +182,12 @@ video, img {
 </div>
 
 <script>
-// ==================== TABS ====================
-function showTab(event, name) {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
-}
-
 function setStatus(id, msg, type) {
     const el = document.getElementById(id);
     el.textContent = msg;
     el.className = 'status show ' + type;
 }
 
-// ==================== PHÁT HIỆN NỀN TẢNG ====================
 function detectPlatform(url) {
     if (url.includes('tiktok.com') || url.includes('vt.tiktok')) return 'tiktok';
     if (url.includes('instagram.com')) return 'instagram';
@@ -265,7 +195,7 @@ function detectPlatform(url) {
     return 'unknown';
 }
 
-// ==================== HÀM TẢI CHÍNH ====================
+// ==================== TẢI CHÍNH ====================
 async function downloadMedia() {
     const url = document.getElementById('url-input').value.trim();
     if (!url) { setStatus('status-download', '❌ Vui lòng nhập link!', 'error'); return; }
@@ -273,187 +203,186 @@ async function downloadMedia() {
     const platform = detectPlatform(url);
     const btn = document.getElementById('btn-download');
     btn.disabled = true; btn.textContent = '⏳ Đang xử lý...';
-    setStatus('status-download', `⏳ Đang lấy dữ liệu từ ${platform.toUpperCase()}...`, 'info');
+    setStatus('status-download', `⏳ Đang lấy dữ liệu...`, 'info');
 
     try {
-        let data;
-        if (platform === 'tiktok') data = await fetchTikTok(url);
-        else if (platform === 'instagram') data = await fetchInstagram(url);
-        else if (platform === 'facebook') data = await fetchFacebook(url);
+        let result;
+        if (platform === 'tiktok') result = await fetchTikTok(url);
+        else if (platform === 'instagram') result = await fetchInstagram(url);
+        else if (platform === 'facebook') result = await fetchFacebook(url);
         else throw new Error('Chỉ hỗ trợ TikTok, Instagram, Facebook');
 
-        showResult(platform, data);
-        setStatus('status-download', '✅ Lấy link thành công!', 'success');
+        renderResult(platform, result);
+        setStatus('status-download', `✅ Tìm thấy ${result.media.length} media!`, 'success');
     } catch (err) {
         setStatus('status-download', '❌ ' + err.message, 'error');
     } finally {
-        btn.disabled = false; btn.textContent = '🚀 Tải Ngay';
+        btn.disabled = false; btn.textContent = '🚀 Lấy Tất Cả Ảnh & Video';
     }
 }
 
-// ==================== API TIKTOK ====================
+// ==================== TIKTOK ====================
 async function fetchTikTok(url) {
     const res = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
     const json = await res.json();
     if (json.code !== 0) throw new Error(json.msg || 'Không tải được TikTok');
+    
     const d = json.data;
+    const media = [];
+    if (d.play) media.push({ type: 'video', url: d.play, thumb: d.cover });
+    if (d.images && d.images.length > 0) {
+        d.images.forEach(img => media.push({ type: 'image', url: img }));
+    } else if (d.cover) {
+        media.push({ type: 'image', url: d.cover });
+    }
+    
     return {
         title: d.title || 'Video TikTok',
         author: d.author?.unique_id || 'Unknown',
-        videoUrl: d.play,
-        imageUrl: d.cover,
-        images: d.images || [],
-        stats: `▶️ ${formatNum(d.play_count)} · ❤️ ${formatNum(d.digg_count)}`
+        media: media
     };
 }
 
-// ==================== API INSTAGRAM (đa proxy) ====================
+// ==================== INSTAGRAM (nhiều API dự phòng) ====================
 async function fetchInstagram(url) {
-    // Danh sách proxy + API dự phòng
-    const endpoints = [
-        // Cách 1: Dùng API snapinsta qua proxy
+    // Chuẩn hoá link
+    const cleanUrl = url.split('?')[0].replace(/\/$/, '') + '/';
+
+    // Danh sách API dự phòng (dùng proxy CORS)
+    const APIs = [
+        // API 1: Instagram Save (qua corsproxy)
         async () => {
-            const apiUrl = `https://snapinsta.app/action.php`;
-            const formData = new FormData();
-            formData.append('url', url);
-            
+            const apiUrl = `https://api.cobalt.tools/api/json`;
             const res = await fetch(apiUrl, {
                 method: 'POST',
-                body: formData,
-                headers: { 'User-Agent': 'Mozilla/5.0' }
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: JSON.stringify({ url: cleanUrl, vQuality: '720' })
+            });
+            const data = await res.json();
+            if (data.status === 'stream' || data.status === 'redirect') {
+                return [{ type: 'video', url: data.url }];
+            }
+            if (data.status === 'picker' && data.picker) {
+                return data.picker.map(p => ({ type: p.type === 'video' ? 'video' : 'image', url: p.url }));
+            }
+            throw new Error('cobalt không trả về dữ liệu');
+        },
+
+        // API 2: Instagram qua snapinsta proxy
+        async () => {
+            const formData = new URLSearchParams();
+            formData.append('url', cleanUrl);
+            const res = await fetch('https://snapinsta.app/action.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'User-Agent': 'Mozilla/5.0'
+                },
+                body: formData.toString()
             });
             const html = await res.text();
             return parseInstagramHtml(html);
         },
-        
-        // Cách 2: Dùng proxy allorigins + parse HTML Instagram
+
+        // API 3: Instagram qua allorigins
         async () => {
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(cleanUrl)}`;
             const res = await fetch(proxyUrl);
             const html = await res.text();
             return parseInstagramHtml(html);
-        },
-        
-        // Cách 3: Dùng API saveinsta
-        async () => {
-            const apiUrl = `https://api.save-free.com/api/instagram?url=${encodeURIComponent(url)}`;
-            const res = await fetch(apiUrl);
-            const json = await res.json();
-            if (json.data && json.data.length > 0) {
-                return {
-                    title: 'Instagram Post',
-                    author: 'Instagram User',
-                    videoUrl: json.data[0].video || null,
-                    imageUrl: json.data[0].image || null,
-                    images: json.data.map(d => d.image).filter(Boolean),
-                    stats: '📷 Instagram'
-                };
-            }
-            throw new Error('saveinsta không trả về dữ liệu');
         }
     ];
 
     let lastError = null;
-    for (const fn of endpoints) {
+    for (const fn of APIs) {
         try {
-            const result = await fn();
-            if (result && (result.videoUrl || result.imageUrl || result.images?.length)) {
-                return result;
+            const media = await fn();
+            if (media && media.length > 0) {
+                return {
+                    title: 'Instagram Post',
+                    author: 'Instagram User',
+                    media: media
+                };
             }
         } catch (e) {
             lastError = e;
         }
     }
-    throw new Error('Không lấy được Instagram. Lỗi: ' + (lastError?.message || 'unknown'));
+    throw new Error('Không lấy được Instagram. ' + (lastError?.message || ''));
 }
 
-// Parse HTML từ Instagram để lấy link ảnh/video
 function parseInstagramHtml(html) {
-    // Tìm video
-    let videoUrl = null;
+    const media = [];
+
+    // Video
     const videoPatterns = [
-        /"video_url":"([^"]+)"/,
-        /<meta property="og:video" content="([^"]+)"/,
-        /"contentUrl":"([^"]+\.mp4[^"]*)"/
+        /"video_url":"([^"]+)"/g,
+        /<meta property="og:video" content="([^"]+)"/g,
+        /"contentUrl":"([^"]+\.mp4[^"]*?)"/g
     ];
     for (const pattern of videoPatterns) {
-        const match = html.match(pattern);
-        if (match) { videoUrl = decodeUrl(match[1]); break; }
+        const matches = [...html.matchAll(pattern)];
+        for (const m of matches) {
+            const url = decodeUrl(m[1]);
+            if (url && !media.find(x => x.url === url)) {
+                media.push({ type: 'video', url });
+            }
+        }
     }
 
-    // Tìm ảnh chính
-    let imageUrl = null;
-    const imagePatterns = [
-        /<meta property="og:image" content="([^"]+)"/,
-        /"display_url":"([^"]+)"/
-    ];
-    for (const pattern of imagePatterns) {
-        const match = html.match(pattern);
-        if (match) { imageUrl = decodeUrl(match[1]); break; }
+    // Ảnh - lấy tất cả display_url
+    const imgMatches = [...html.matchAll(/"display_url":"([^"]+)"/g)];
+    for (const m of imgMatches) {
+        const url = decodeUrl(m[1]);
+        if (url && !media.find(x => x.url === url)) {
+            media.push({ type: 'image', url });
+        }
     }
 
-    // Tìm tất cả ảnh (carousel)
-    const images = [];
-    const allImages = html.matchAll(/"display_url":"([^"]+)"/g);
-    for (const m of allImages) {
-        const img = decodeUrl(m[1]);
-        if (!images.includes(img)) images.push(img);
+    // Ảnh từ og:image (dự phòng)
+    if (media.length === 0) {
+        const ogImg = html.match(/<meta property="og:image" content="([^"]+)"/);
+        if (ogImg) media.push({ type: 'image', url: decodeUrl(ogImg[1]) });
     }
 
-    // Tiêu đề
-    const titleMatch = html.match(/<meta property="og:title" content="([^"]+)"/);
-
-    if (!videoUrl && !imageUrl && images.length === 0) {
-        throw new Error('Không tìm thấy media');
-    }
-
-    return {
-        title: titleMatch ? titleMatch[1] : 'Instagram Post',
-        author: 'Instagram',
-        videoUrl: videoUrl,
-        imageUrl: imageUrl || images[0],
-        images: images,
-        stats: '📷 Instagram · ' + (videoUrl ? 'Video' : 'Ảnh')
-    };
+    return media;
 }
 
 function decodeUrl(str) {
     return str
         .replace(/\\u0026/g, '&')
         .replace(/\\u003D/g, '=')
+        .replace(/\\u002F/g, '/')
         .replace(/\\/g, '')
         .replace(/&amp;/g, '&');
 }
 
-// ==================== API FACEBOOK ====================
+// ==================== FACEBOOK ====================
 async function fetchFacebook(url) {
     const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(url)}`;
     const res = await fetch(proxyUrl);
     const html = await res.text();
 
+    const media = [];
     const hdMatch = html.match(/"hd_src":"([^"]+)"/);
     const sdMatch = html.match(/"sd_src":"([^"]+)"/);
     const imgMatch = html.match(/"preview_image_url":"([^"]+)"/);
-    const titleMatch = html.match(/<title>([^<]+)<\/title>/);
 
-    let videoUrl = null;
-    if (hdMatch) videoUrl = decodeUrl(hdMatch[1]);
-    else if (sdMatch) videoUrl = decodeUrl(sdMatch[1]);
+    if (hdMatch) media.push({ type: 'video', url: decodeUrl(hdMatch[1]) });
+    else if (sdMatch) media.push({ type: 'video', url: decodeUrl(sdMatch[1]) });
+    if (imgMatch) media.push({ type: 'image', url: decodeUrl(imgMatch[1]) });
 
-    if (!videoUrl && !imgMatch) throw new Error('Không tìm thấy media Facebook');
+    if (media.length === 0) throw new Error('Không tìm thấy media Facebook');
 
     return {
-        title: titleMatch ? titleMatch[1] : 'Facebook Media',
+        title: 'Facebook Media',
         author: 'Facebook User',
-        videoUrl: videoUrl,
-        imageUrl: imgMatch ? decodeUrl(imgMatch[1]) : null,
-        images: [],
-        stats: '📘 Facebook'
+        media: media
     };
 }
 
-// ==================== HIỂN THỊ ====================
-function showResult(platform, data) {
+// ==================== HIỂN THỊ TẤT CẢ MEDIA ====================
+function renderResult(platform, result) {
     const badges = {
         tiktok: { text: '🎵 TikTok', cls: 'badge-tiktok' },
         instagram: { text: '📷 Instagram', cls: 'badge-instagram' },
@@ -462,129 +391,70 @@ function showResult(platform, data) {
     const b = badges[platform];
     document.getElementById('platform-badge').innerHTML = `<span class="platform-badge ${b.cls}">${b.text}</span>`;
 
-    // Video
-    const video = document.getElementById('video-preview');
-    if (data.videoUrl) {
-        video.src = data.videoUrl;
-        video.style.display = 'block';
-    } else {
-        video.style.display = 'none';
-    }
-
-    // Ảnh
-    const imageList = document.getElementById('image-list');
-    if (data.images && data.images.length > 0) {
-        imageList.innerHTML = data.images.map((img, i) => `
-            <img src="${img}" onclick="downloadFile('${img}', 'huypham_img_${i+1}.jpg')">
-        `).join('');
-    } else if (data.imageUrl) {
-        imageList.innerHTML = `<img src="${data.imageUrl}" onclick="downloadFile('${data.imageUrl}', 'huypham_image.jpg')">`;
-    } else {
-        imageList.innerHTML = '';
-    }
-
     document.getElementById('media-info').innerHTML = `
-        <strong>📝 ${data.title}</strong><br>
-        👤 ${data.author}<br>
-        ${data.stats}
+        <strong>📝 ${result.title}</strong><br>
+        👤 ${result.author}<br>
+        📦 Tổng: <strong>${result.media.length}</strong> media
     `;
 
-    window.currentVideoUrl = data.videoUrl;
-    window.currentImageUrl = data.imageUrl;
-    window.currentImages = data.images || [];
-    window.currentOriginalUrl = document.getElementById('url-input').value;
-
-    document.getElementById('result-download').classList.add('show');
-}
-
-// ==================== TẢI NHIỀU LINK ====================
-async function downloadBatch() {
-    const input = document.getElementById('batch-input').value.trim();
-    if (!input) { setStatus('status-batch', '❌ Vui lòng nhập link!', 'error'); return; }
-
-    const links = input.split('\n').map(l => l.trim()).filter(l => l);
-    const btn = document.getElementById('btn-batch');
-    btn.disabled = true; btn.textContent = '⏳ Đang xử lý...';
-
-    document.getElementById('batch-results').style.display = 'block';
-    const list = document.getElementById('batch-list');
+    const list = document.getElementById('media-list');
     list.innerHTML = '';
 
-    let success = 0, fail = 0;
+    result.media.forEach((item, i) => {
+        const div = document.createElement('div');
+        div.className = 'media-item';
 
-    for (let i = 0; i < links.length; i++) {
-        const link = links[i];
-        setStatus('status-batch', `⏳ ${i+1}/${links.length}...`, 'info');
-
-        try {
-            const platform = detectPlatform(link);
-            let data;
-            if (platform === 'tiktok') data = await fetchTikTok(link);
-            else if (platform === 'instagram') data = await fetchInstagram(link);
-            else if (platform === 'facebook') data = await fetchFacebook(link);
-            else throw new Error('Nền tảng không hỗ trợ');
-
-            list.innerHTML += `
-                <div class="info-box" style="border-left-color:#22c55e;">
-                    <strong>✅ ${data.title}</strong><br>
-                    👤 ${data.author}<br>
-                    <div class="btn-group" style="margin-top:8px;">
-                        ${data.videoUrl ? `<button class="btn-green" onclick="downloadFile('${data.videoUrl}', 'video_${i+1}.mp4')">⬇️ Video</button>` : ''}
-                        ${data.imageUrl ? `<button class="btn-red" onclick="downloadFile('${data.imageUrl}', 'img_${i+1}.jpg')">⬇️ Ảnh</button>` : ''}
-                    </div>
+        if (item.type === 'video') {
+            div.innerHTML = `
+                <div style="font-size:12px;color:#8b5cf6;font-weight:600;margin-bottom:8px;">🎬 Video ${i + 1}</div>
+                <video controls playsinline preload="metadata" src="${item.url}"></video>
+                <div class="btn-group">
+                    <button class="btn-green" onclick="downloadFile('${item.url}', 'huypham_video_${i + 1}.mp4')">⬇️ Tải Video</button>
+                    <button class="btn-blue" onclick="copyLink('${item.url}')">📋 Copy Link</button>
                 </div>
             `;
-            success++;
-        } catch (err) {
-            list.innerHTML += `
-                <div class="info-box" style="border-left-color:#ef4444;">
-                    <strong>❌ ${link.substring(0, 50)}...</strong><br>
-                    <span style="color:#fca5a5;font-size:12px;">${err.message}</span>
+        } else {
+            div.innerHTML = `
+                <div style="font-size:12px;color:#22c55e;font-weight:600;margin-bottom:8px;">🖼️ Ảnh ${i + 1}</div>
+                <img src="${item.url}" loading="lazy" onerror="this.style.display='none'">
+                <div class="btn-group">
+                    <button class="btn-green" onclick="downloadFile('${item.url}', 'huypham_image_${i + 1}.jpg')">⬇️ Tải Ảnh</button>
+                    <button class="btn-blue" onclick="copyLink('${item.url}')">📋 Copy Link</button>
                 </div>
             `;
-            fail++;
         }
-    }
+        list.appendChild(div);
+    });
 
-    setStatus('status-batch', `✅ Hoàn tất! ${success} thành công, ${fail} lỗi`, 'success');
-    btn.disabled = false; btn.textContent = '🚀 Tải Tất Cả';
+    document.getElementById('result-download').classList.add('show');
 }
 
 // ==================== HELPERS ====================
 function downloadFile(url, filename) {
     if (!url) return alert('Chưa có file!');
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = filename || 'huypham_file';
-    a.target = '_blank';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-}
-
-function downloadAllImages() {
-    if (!window.currentImages || window.currentImages.length === 0) {
-        return alert('Không có ảnh để tải!');
-    }
-    window.currentImages.forEach((img, i) => {
-        setTimeout(() => downloadFile(img, `huypham_img_${i+1}.jpg`), i * 500);
-    });
+    
+    // Dùng fetch để tải qua blob (vượt CORS)
+    fetch(url, { mode: 'cors' })
+        .then(res => res.blob())
+        .then(blob => {
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = blobUrl;
+            a.download = filename || 'huypham_file';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(() => URL.revokeObjectURL(blobUrl), 3000);
+        })
+        .catch(() => {
+            // Fallback mở tab mới nếu CORS chặn
+            window.open(url, '_blank');
+        });
 }
 
 function copyLink(url) {
     if (!url) return alert('Chưa có link!');
-    navigator.clipboard.writeText(url).then(() => alert('✅ Đã copy: ' + url));
-}
-
-function openOriginal() {
-    if (window.currentOriginalUrl) window.open(window.currentOriginalUrl, '_blank');
-}
-
-function formatNum(n) {
-    if (!n) return '0';
-    if (n >= 1000000) return (n / 1000000).toFixed(1) + 'M';
-    if (n >= 1000) return (n / 1000).toFixed(1) + 'K';
-    return n.toString();
+    navigator.clipboard.writeText(url).then(() => alert('✅ Đã copy link!'));
 }
 </script>
 </body>
